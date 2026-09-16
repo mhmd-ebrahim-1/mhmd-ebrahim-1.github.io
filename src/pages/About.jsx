@@ -225,9 +225,13 @@ export default function About() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(SKILLS).map(([key, domain], cardIndex) => {
+            {Object.entries(SKILLS || {}).map(([key, domain], cardIndex) => {
               const Icon = domainIcons[key] || Database
               const accent = domainAccents[key] || '#00f5d4'
+              const domainTitle = domain?.title || key
+              const domainDesc = domain?.description || ''
+              const domainSkills = Array.isArray(domain?.skills) ? domain.skills : []
+
               return (
                 <motion.div
                   key={key}
@@ -246,16 +250,16 @@ export default function About() {
                         <Icon size={20} />
                       </div>
                       <div>
-                        <h3 className="font-display font-semibold text-lg text-white">{domain.title}</h3>
+                        <h3 className="font-display font-semibold text-lg text-white">{domainTitle}</h3>
                       </div>
                     </div>
                     <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                      {domain.description}
+                      {domainDesc}
                     </p>
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                    {domain.skills.map((s) => (
+                    {domainSkills.map((s) => (
                       <span
                         key={s}
                         className="font-mono text-xs px-2.5 py-1 rounded-md"

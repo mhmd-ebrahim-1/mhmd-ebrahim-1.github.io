@@ -438,7 +438,7 @@ export default function Home() {
 
                   {/* Tech Stack Strip */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {proj.tech.map((t) => (
+                    {(proj.tech || []).map((t) => (
                       <span key={t} className="tech-tag">
                         {t}
                       </span>
@@ -527,7 +527,7 @@ export default function Home() {
 
                     <div className="mb-6 space-y-2">
                       <p className="font-mono text-[11px] uppercase tracking-wider text-white/40">Key Deliverables:</p>
-                      {service.deliverables.map((del, i) => (
+                      {(service.deliverables || []).map((del, i) => (
                         <div key={i} className="flex items-start gap-2 text-xs" style={{ color: 'rgba(255,255,255,.7)' }}>
                           <span className="text-[#00f5d4] mt-0.5">•</span>
                           <span>{del}</span>
@@ -538,7 +538,7 @@ export default function Home() {
 
                   <div>
                     <div className="flex flex-wrap gap-1.5 mb-6">
-                      {service.tech.slice(0, 4).map((t) => (
+                      {(service.tech || []).slice(0, 4).map((t) => (
                         <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/[0.04] text-white/50">
                           {t}
                         </span>

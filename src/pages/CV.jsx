@@ -238,13 +238,13 @@ export default function CV() {
               <div>
                 <h3 className="font-display font-semibold text-white text-lg mb-6">Core Competencies</h3>
                 <div className="space-y-6">
-                  {Object.entries(SKILLS).map(([key, domain]) => (
+                  {Object.entries(SKILLS || {}).map(([key, domain]) => (
                     <div key={key}>
                       <p className="font-mono text-xs mb-2 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
-                        {domain.title}
+                        {domain?.title || key}
                       </p>
                       <div className="flex flex-wrap gap-1.5">
-                        {domain.skills.map((s) => (
+                        {(domain?.skills || []).map((s) => (
                           <span
                             key={s}
                             className="font-mono text-xs px-2 py-0.5 rounded"
