@@ -78,7 +78,7 @@
     const redirect = new URLSearchParams(window.location.search).get('redirect')
     if (redirect) {
       const route = decodeURIComponent(redirect)
-      window.history.replaceState(null, '', `${route.startsWith('/') ? route : `/${route}`}`)
+      window.history.replaceState(null, '', `/#${route.startsWith('/') ? route : `/${route}`}`)
     }
   </script>
   <script type="module" src="/src/main.jsx"></script>
