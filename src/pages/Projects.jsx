@@ -91,7 +91,7 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
         {/* Card Body */}
         <div className="p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3 mb-2">
-            <h3 className="font-display font-bold text-lg text-white leading-snug">{proj.title}</h3>
+            <h3 className="font-display font-bold text-lg text-[var(--text-primary)] leading-snug">{proj.title}</h3>
             <ArrowUpRight
               size={16}
               style={{
@@ -106,7 +106,7 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
             {proj.valueProp || proj.description || proj.shortDesc}
           </p>
 
-          <p className="text-xs leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,.5)' }}>
+          <p className="text-xs leading-relaxed mb-5 text-[var(--text-secondary)]">
             {proj.shortDesc || proj.description}
           </p>
 
@@ -142,7 +142,7 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
             Read Case Study <ArrowRight size={13} />
           </button>
         ) : (
-          <span className="font-mono text-xs text-white/30">Implementation View</span>
+          <span className="font-mono text-xs text-[var(--text-muted)]">Implementation View</span>
         )}
 
         <div className="flex items-center gap-2">
@@ -151,7 +151,7 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
               href={proj.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg glass text-white/60 hover:text-white transition-colors"
+              className="p-2 rounded-lg glass text-[var(--text-secondary)] hover:text-white transition-colors"
               title="Live Demo"
             >
               <ExternalLink size={15} />
@@ -162,7 +162,7 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
               href={proj.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg glass text-white/60 hover:text-white transition-colors"
+              className="p-2 rounded-lg glass text-[var(--text-secondary)] hover:text-white transition-colors"
               title="Source Code"
             >
               <Github size={15} />
@@ -198,10 +198,10 @@ export default function Projects() {
           <p className="font-mono text-xs mb-3 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
             // 04 — PORTFOLIO PROJECTS
           </p>
-          <h1 className="font-display text-4xl sm:text-6xl font-bold mb-4 tracking-[-.04em]">
+          <h1 className="font-display section-title font-bold mb-4 text-[var(--text-primary)]">
             Selected <span className="grad-text">Work</span>
           </h1>
-          <p className="text-base max-w-2xl" style={{ color: 'rgba(255,255,255,.55)' }}>
+          <p className="text-base max-w-2xl text-[var(--text-secondary)]">
             A structured portfolio of 9 technical projects across Data Analytics, Machine Learning, Generative AI, Computer Vision, and Big Data Engineering.
           </p>
         </motion.div>
@@ -237,9 +237,9 @@ export default function Projects() {
                 <p className="font-mono text-[11px] tracking-wider uppercase mb-1" style={{ color: '#00f5d4' }}>
                   // PRIMARY TECHNICAL SHOWCASE
                 </p>
-                <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">Featured Work</h2>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Featured Work</h2>
               </div>
-              <span className="font-mono text-xs text-white/30">{featured.length} featured</span>
+              <span className="font-mono text-xs text-[var(--text-muted)]">{featured.length} featured</span>
             </div>
             <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <AnimatePresence mode="popLayout">
@@ -259,9 +259,9 @@ export default function Projects() {
                 <p className="font-mono text-[11px] tracking-wider uppercase mb-1" style={{ color: '#a78bfa' }}>
                   // EXPLORE MORE WORK
                 </p>
-                <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">Additional Projects</h2>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Additional Projects</h2>
               </div>
-              <span className="font-mono text-xs text-white/30">{additional.length} projects</span>
+              <span className="font-mono text-xs text-[var(--text-muted)]">{additional.length} projects</span>
             </div>
             <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
               <AnimatePresence mode="popLayout">

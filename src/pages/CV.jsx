@@ -43,7 +43,7 @@ function TimelineItem({ item, index, isEdu = false }) {
       </div>
       <div className="flex-1 min-w-0 pt-1 pb-2">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-1">
-          <h3 className="font-display font-semibold text-white text-base sm:text-lg">
+          <h3 className="font-display font-semibold text-[var(--text-primary)] text-base sm:text-lg">
             {title}
           </h3>
           {isCurrent && (
@@ -64,13 +64,13 @@ function TimelineItem({ item, index, isEdu = false }) {
           {company} · {period}
           {item.location ? ` · ${item.location}` : ''}
         </p>
-        <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+        <p className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)]">
           {item.description}
         </p>
         {highlights.length > 0 && (
           <ul className="mt-3 space-y-1.5">
             {highlights.map((h, i) => (
-              <li key={i} className="text-xs flex items-start gap-2" style={{ color: 'rgba(255,255,255,0.65)' }}>
+              <li key={i} className="text-xs flex items-start gap-2 text-[var(--text-secondary)]">
                 <span className="text-[#00f5d4] mt-0.5">•</span>
                 <span>{h}</span>
               </li>
@@ -102,10 +102,10 @@ export default function CV() {
             <p className="font-mono text-xs mb-3 tracking-[0.12em]" style={{ color: '#00f5d4' }}>
               // 05 — CURRICULUM VITAE
             </p>
-            <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-[-0.04em]">
+            <h1 className="font-display section-title font-bold text-[var(--text-primary)]">
               Professional <span className="grad-text">CV</span>
             </h1>
-            <p className="text-sm sm:text-base mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-sm sm:text-base mt-2 text-[var(--text-muted)]">
               Official curriculum vitae, training milestones, and technical background.
             </p>
           </div>
@@ -146,14 +146,14 @@ export default function CV() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-1">
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-1">
                   {PROFILE.fullName}
                 </h2>
                 <p className="text-base font-semibold mb-3" style={{ color: '#00f5d4' }}>
                   {PROFILE.title}
                 </p>
                 <div className="flex flex-wrap gap-x-5 gap-y-2">
-                  <span className="flex items-center gap-1.5 font-mono text-xs text-white/60">
+                  <span className="flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)]">
                     <MapPin size={12} style={{ color: '#00f5d4', flexShrink: 0 }} />
                     {PROFILE.location}
                   </span>
@@ -161,14 +161,14 @@ export default function CV() {
                     href={PROFILE.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 font-mono text-xs text-white/60 hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)] hover:text-white transition-colors"
                   >
                     <WhatsAppIcon size={13} className="text-[#00f5d4] shrink-0" />
                     WhatsApp
                   </a>
                   <a
                     href={`mailto:${PROFILE.email}`}
-                    className="flex items-center gap-1.5 font-mono text-xs text-white/60 hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)] hover:text-white transition-colors"
                   >
                     <Mail size={12} style={{ color: '#00f5d4', flexShrink: 0 }} />
                     {PROFILE.email}
@@ -177,7 +177,7 @@ export default function CV() {
                     href={PROFILE.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 font-mono text-xs text-white/60 hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)] hover:text-white transition-colors"
                   >
                     <Github size={12} style={{ color: '#00f5d4', flexShrink: 0 }} />
                     mhmd-ebrahim-1
@@ -186,7 +186,7 @@ export default function CV() {
                     href={PROFILE.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 font-mono text-xs text-white/60 hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)] hover:text-white transition-colors"
                   >
                     <Linkedin size={12} style={{ color: '#00f5d4', flexShrink: 0 }} />
                     mhmd-ebrahim1
@@ -194,7 +194,7 @@ export default function CV() {
                 </div>
               </div>
             </div>
-            <p className="mt-6 text-sm leading-relaxed max-w-3xl" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <p className="mt-6 text-sm leading-relaxed max-w-3xl text-[var(--text-secondary)]">
               {PROFILE.bio}
             </p>
           </div>
@@ -211,7 +211,7 @@ export default function CV() {
                   >
                     <Briefcase size={14} style={{ color: '#00f5d4' }} />
                   </div>
-                  <h3 className="font-display font-semibold text-white text-lg">Practical Experience &amp; Training</h3>
+                  <h3 className="font-display font-semibold text-[var(--text-primary)] text-lg">Practical Experience &amp; Training</h3>
                 </div>
                 {EXPERIENCE.map((exp, i) => (
                   <TimelineItem key={exp.id} item={exp} index={i} />
@@ -226,7 +226,7 @@ export default function CV() {
                   >
                     <GraduationCap size={14} style={{ color: '#a78bfa' }} />
                   </div>
-                  <h3 className="font-display font-semibold text-white text-lg">Education</h3>
+                  <h3 className="font-display font-semibold text-[var(--text-primary)] text-lg">Education</h3>
                 </div>
                 {EDUCATION.map((edu, i) => (
                   <TimelineItem key={edu.id} item={edu} index={i} isEdu />
@@ -237,7 +237,7 @@ export default function CV() {
             {/* Right: Technical Skills & Languages */}
             <div className="lg:col-span-2 p-6 sm:p-10 space-y-8">
               <div>
-                <h3 className="font-display font-semibold text-white text-lg mb-6">Core Competencies</h3>
+                <h3 className="font-display font-semibold text-[var(--text-primary)] text-lg mb-6">Core Competencies</h3>
                 <div className="space-y-6">
                   {Object.entries(SKILLS_DATA || {}).map(([key, domain]) => (
                     <div key={key}>

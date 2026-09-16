@@ -51,15 +51,15 @@ export default function About() {
             <p className="font-mono text-xs mb-4 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
               // 01 — PROFESSIONAL PROFILE
             </p>
-            <h1 className="font-display text-4xl sm:text-6xl font-bold mb-6 tracking-[-0.04em] leading-[1.05]">
+            <h1 className="font-display section-title font-bold mb-6 text-[var(--text-primary)]">
               Turning Data <br />
               Into <span className="grad-text">Intelligence</span>
             </h1>
 
-            <p className="text-base sm:text-lg leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.7)' }}>
+            <p className="text-base sm:text-lg leading-relaxed mb-5 text-[var(--text-secondary)]">
               {PROFILE.bio}
             </p>
-            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            <p className="text-base leading-relaxed mb-8 text-[var(--text-secondary)]">
               {PROFILE.bio2}
             </p>
 
@@ -76,8 +76,8 @@ export default function About() {
                     border: '1px solid rgba(255,255,255,0.06)',
                   }}
                 >
-                  <p className="font-mono text-[10px] mb-1 tracking-wider uppercase text-white/40">{label}</p>
-                  <p className="text-sm font-semibold text-white/90">{value}</p>
+                  <p className="font-mono text-[10px] mb-1 tracking-wider uppercase text-[var(--text-muted)]">{label}</p>
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">{value}</p>
                 </div>
               ))}
             </div>
@@ -170,7 +170,7 @@ export default function About() {
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                   <span className="font-mono text-xs ml-3 text-white/30">engineer_profile.py</span>
                 </div>
-                <div className="font-mono text-xs leading-6 text-white/80 overflow-x-auto">
+                <div className="font-mono text-xs leading-6 text-[var(--text-primary)] overflow-x-auto">
                   <p>
                     <span style={{ color: '#a78bfa' }}>class</span> <span style={{ color: '#00f5d4' }}>MohamedEbrahim</span>:
                   </p>
@@ -216,10 +216,10 @@ export default function About() {
             <p className="font-mono text-xs mb-3 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
               // 02 — TECHNICAL COMPETENCIES
             </p>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-[-0.04em] text-white">
+            <h2 className="font-display section-title font-bold text-[var(--text-primary)]">
               Skills &amp; <span className="grad-text">Applied Knowledge</span>
             </h2>
-            <p className="text-sm sm:text-base mt-2" style={{ color: 'rgba(255,255,255,0.45)' }}>
+            <p className="text-sm sm:text-base mt-2 text-[var(--text-muted)]">
               Organized by domain and supported by verifiable project implementations across the repository.
             </p>
           </motion.div>
@@ -250,10 +250,10 @@ export default function About() {
                         <Icon size={20} />
                       </div>
                       <div>
-                        <h3 className="font-display font-semibold text-lg text-white">{domainTitle}</h3>
+                        <h3 className="font-display font-semibold text-lg text-[var(--text-primary)]">{domainTitle}</h3>
                       </div>
                     </div>
-                    <p className="text-xs sm:text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                    <p className="text-xs sm:text-sm leading-relaxed mb-6 text-[var(--text-secondary)]">
                       {domainDesc}
                     </p>
                   </div>
@@ -290,7 +290,7 @@ export default function About() {
             <p className="font-mono text-xs mb-3 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
               // 03 — TOOLING
             </p>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-[-0.04em] text-white">
+            <h2 className="font-display section-title font-bold text-[var(--text-primary)]">
               Technologies &amp; <span className="grad-text">Environments</span>
             </h2>
           </motion.div>

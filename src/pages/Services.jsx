@@ -85,10 +85,10 @@ export default function Services() {
               // 03 — SERVICES &amp; COLLABORATION
             </span>
           </div>
-          <h1 className="font-display text-4xl sm:text-6xl font-bold mb-4 tracking-[-.04em] text-white">
+          <h1 className="font-display section-title font-bold mb-4 text-[var(--text-primary)]">
             Technical <span className="grad-text">Services &amp; Offerings</span>
           </h1>
-          <p className="text-base sm:text-lg max-w-3xl leading-relaxed" style={{ color: 'rgba(255,255,255,.65)' }}>
+          <p className="text-base sm:text-lg max-w-3xl leading-relaxed text-[var(--text-secondary)]">
             Specialized, production-grounded technical services tailored for engineering teams, businesses, and research labs. Spanning exploratory data analysis, interactive Power BI dashboards, machine learning systems, Arabic RAG assistants, and scalable data pipelines.
           </p>
         </motion.div>
@@ -124,16 +124,16 @@ export default function Services() {
                   </div>
 
                   {/* Title & Short Description */}
-                  <h2 className="font-display font-bold text-xl text-white mb-3 group-hover:text-cyan-300 transition-colors">
+                  <h2 className="font-display font-bold text-xl text-[var(--text-primary)] mb-3 group-hover:text-cyan-400 transition-colors">
                     {service.title}
                   </h2>
-                  <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,.6)' }}>
+                  <p className="text-sm leading-relaxed mb-6 text-[var(--text-secondary)]">
                     {service.shortDesc}
                   </p>
 
                   {/* Deliverables List */}
                   <div className="mb-6 space-y-2.5 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                    <p className="font-mono text-[11px] uppercase tracking-wider text-white/40">Key Deliverables:</p>
+                    <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">Key Deliverables:</p>
                     {(service.deliverables || []).map((del, i) => (
                       <div key={i} className="flex items-start gap-2.5 text-xs leading-normal" style={{ color: 'rgba(255,255,255,.75)' }}>
                         <CheckCircle2 size={13} className="shrink-0 mt-0.5" style={{ color: accent }} />
@@ -185,10 +185,10 @@ export default function Services() {
             <p className="font-mono text-xs mb-2 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
               // COLLABORATION WORKFLOW
             </p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-3">
+            <h2 className="font-display section-title font-bold text-[var(--text-primary)] mb-3">
               How We <span className="grad-text">Work Together</span>
             </h2>
-            <p className="text-sm sm:text-base" style={{ color: 'rgba(255,255,255,.55)' }}>
+            <p className="text-sm sm:text-base text-[var(--text-secondary)]">
               A structured, transparent engineering process ensuring quality, reproducibility, and verified milestones.
             </p>
           </div>
@@ -217,8 +217,8 @@ export default function Services() {
                       {ws.step}
                     </span>
                   </div>
-                  <h3 className="font-display font-semibold text-lg text-white mb-2">{ws.title}</h3>
-                  <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  <h3 className="font-display font-semibold text-lg text-[var(--text-primary)] mb-2">{ws.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)]">
                     {ws.desc}
                   </p>
                 </motion.div>
@@ -254,7 +254,7 @@ export default function Services() {
                   Ready to Start a Collaboration? <br />
                   <span className="grad-text">Let&apos;s Build Together.</span>
                 </h2>
-                <p className="text-sm sm:text-base leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,.65)' }}>
+                <p className="text-sm sm:text-base leading-relaxed mb-6 text-[var(--text-secondary)]">
                   Whether you need a full data analytics dashboard, an end-to-end ML model, or technical consultation on GenAI and big data architecture, reach out directly through the unified channels below.
                 </p>
 
@@ -264,14 +264,14 @@ export default function Services() {
                     className="p-4 rounded-2xl glass border"
                     style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}
                   >
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Location</p>
+                    <p className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">Location</p>
                     <p className="text-sm font-semibold text-white">{PROFILE.location}</p>
                   </div>
                   <div
                     className="p-4 rounded-2xl glass border"
                     style={{ borderColor: 'rgba(0,245,212,0.15)', background: 'rgba(0,245,212,0.02)' }}
                   >
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Availability</p>
+                    <p className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">Availability</p>
                     <p className="text-sm font-semibold text-[#00f5d4] flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#00f5d4] animate-pulse" />
                       Open to internships &amp; freelance
@@ -336,7 +336,7 @@ export default function Services() {
                         <p className="font-display font-semibold text-white text-sm sm:text-base group-hover:text-[#00f5d4] transition-colors">
                           Chat on WhatsApp
                         </p>
-                        <p className="font-mono text-xs text-white/50">+20 109 355 6456</p>
+                        <p className="font-mono text-xs text-[var(--text-muted)]">+20 109 355 6456</p>
                       </div>
                     </div>
                     <ArrowUpRight size={18} className="text-[#00f5d4] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -366,16 +366,16 @@ export default function Services() {
                         <p className="font-display font-semibold text-white text-sm sm:text-base group-hover:text-white transition-colors">
                           Send Email
                         </p>
-                        <p className="font-mono text-xs text-white/50">{PROFILE.email}</p>
+                        <p className="font-mono text-xs text-[var(--text-muted)]">{PROFILE.email}</p>
                       </div>
                     </div>
-                    <ArrowUpRight size={18} className="text-white/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                    <ArrowUpRight size={18} className="text-[var(--text-muted)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                   </a>
                 </div>
 
                 {/* Supporting Profiles Row */}
                 <div className="pt-5 border-t border-white/[0.08]">
-                  <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-3">
+                  <p className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mb-3">
                     Professional Networks
                   </p>
                   <div className="grid grid-cols-2 gap-3">

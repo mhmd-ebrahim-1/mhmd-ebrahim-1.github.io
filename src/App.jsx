@@ -2,6 +2,7 @@ import { Component, useState, lazy, Suspense } from 'react'
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 
+import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import { DataProvider, useData } from './context/DataContext'
 import Loader from './components/Loader'
@@ -158,25 +159,25 @@ function LayoutContent() {
       </RouteErrorBoundary>
 
       {!isAdmin && (
-        <footer className="py-12 px-6 text-center border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Designed &amp; Built by <span style={{ color: '#00f5d4' }}>{profile?.name || PROFILE.name}</span> · {profile?.title || PROFILE.title}
+        <footer className="py-12 px-4 sm:px-6 lg:px-10 text-center border-t border-[var(--border-subtle)] transition-colors">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <p className="font-mono text-xs text-[var(--text-muted)] text-center md:text-left">
+              Designed &amp; Built by <span className="text-[#00f5d4] font-semibold">{profile?.name || PROFILE.name}</span> · {profile?.title || PROFILE.title}
             </p>
-            <div className="flex items-center gap-4 font-mono text-xs text-white/40">
-              <a href={profile?.github || PROFILE.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 font-mono text-xs text-[var(--text-muted)]">
+              <a href={profile?.github || PROFILE.github} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors py-1">
                 GitHub
               </a>
               <span>•</span>
-              <a href={profile?.linkedin || PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              <a href={profile?.linkedin || PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors py-1">
                 LinkedIn
               </a>
               <span>•</span>
-              <a href={profile?.whatsapp || PROFILE.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-[#00f5d4] transition-colors">
+              <a href={profile?.whatsapp || PROFILE.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-[#00f5d4] transition-colors py-1">
                 WhatsApp
               </a>
               <span>•</span>
-              <a href={`mailto:${profile?.email || PROFILE.email}`} className="hover:text-[#00f5d4] transition-colors">
+              <a href={`mailto:${profile?.email || PROFILE.email}`} className="hover:text-[#00f5d4] transition-colors py-1">
                 Email
               </a>
             </div>
@@ -191,12 +192,14 @@ function LayoutContent() {
 
 export default function App() {
   return (
-    <HashRouter>
-      <AuthProvider>
-        <DataProvider>
-          <LayoutContent />
-        </DataProvider>
-      </AuthProvider>
-    </HashRouter>
+    <ThemeProvider>
+      <HashRouter>
+        <AuthProvider>
+          <DataProvider>
+            <LayoutContent />
+          </DataProvider>
+        </AuthProvider>
+      </HashRouter>
+    </ThemeProvider>
   )
 }

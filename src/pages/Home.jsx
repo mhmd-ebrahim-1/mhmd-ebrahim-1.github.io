@@ -107,17 +107,17 @@ export default function Home() {
               </span>
             </div>
 
-            <p className="font-mono text-xs sm:text-sm mb-3 tracking-wider uppercase" style={{ color: 'rgba(255,255,255,.45)' }}>
+            <p className="font-mono text-xs sm:text-sm mb-3 tracking-wider uppercase text-[var(--text-muted)]">
               Data Analyst &amp; Machine Learning Engineer
             </p>
 
-            <h1 className="font-display font-bold text-5xl sm:text-7xl xl:text-8xl leading-[.92] tracking-[-.04em] mb-6">
-              <span className="text-white">Mohamed</span>
+            <h1 className="font-display font-bold hero-headline mb-6">
+              <span className="text-[var(--text-primary)]">Mohamed</span>
               <br />
               <span className="grad-text">Ebrahim</span>
             </h1>
 
-            <p className="max-w-2xl text-base sm:text-lg leading-8 mb-6" style={{ color: 'rgba(255,255,255,.65)' }}>
+            <p className="max-w-2xl text-base sm:text-lg leading-8 mb-6 text-[var(--text-secondary)]">
               Building data-driven products, intelligent ML systems, and practical AI solutions. Specializing in exploratory analytics, business intelligence dashboards, RAG architectures, and end-to-end data pipelines.
             </p>
 
@@ -170,13 +170,13 @@ export default function Home() {
 
             {/* Professional Profiles */}
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs uppercase tracking-wider text-white/40 mr-1">Profiles:</span>
+              <span className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mr-1">Profiles:</span>
               <a
                 href={PROFILE.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn Profile"
-                className="px-3.5 py-2 rounded-xl glass flex items-center gap-2 font-mono text-xs text-white/80 hover:text-white hover:border-cyan-400/40 transition-all hover:-translate-y-0.5"
+                className="px-3.5 py-2 rounded-xl glass flex items-center gap-2 font-mono text-xs text-[var(--text-primary)] hover:text-white hover:border-cyan-400/40 transition-all hover:-translate-y-0.5"
               >
                 <Linkedin size={15} style={{ color: '#0ea5e9' }} /> LinkedIn
               </a>
@@ -185,7 +185,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub Profile"
-                className="px-3.5 py-2 rounded-xl glass flex items-center gap-2 font-mono text-xs text-white/80 hover:text-white hover:border-cyan-400/40 transition-all hover:-translate-y-0.5"
+                className="px-3.5 py-2 rounded-xl glass flex items-center gap-2 font-mono text-xs text-[var(--text-primary)] hover:text-white hover:border-cyan-400/40 transition-all hover:-translate-y-0.5"
               >
                 <Github size={15} /> GitHub
               </a>
@@ -290,7 +290,7 @@ export default function Home() {
 
                 {/* Footer Strip */}
                 <div className="p-3 bg-[#080810] border-t border-white/[0.04]">
-                  <p className="font-mono text-[11px] text-center text-white/50">
+                  <p className="font-mono text-[11px] text-center text-[var(--text-muted)]">
                     Data Analytics · Machine Learning · AI Systems
                   </p>
                 </div>
@@ -310,7 +310,7 @@ export default function Home() {
             <p className="font-mono text-xs mb-2 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
               // CORE DOMAINS
             </p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white">
+            <h2 className="font-display section-title font-bold text-[var(--text-primary)]">
               End-to-End <span className="grad-text">Technical Scope</span>
             </h2>
           </div>
@@ -333,8 +333,8 @@ export default function Home() {
                   >
                     <Icon size={22} />
                   </div>
-                  <h3 className="font-display font-semibold text-xl text-white mb-3">{title}</h3>
-                  <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,.55)' }}>
+                  <h3 className="font-display font-semibold text-xl text-[var(--text-primary)] mb-3">{title}</h3>
+                  <p className="text-sm leading-relaxed mb-6 text-[var(--text-secondary)]">
                     {text}
                   </p>
                 </div>
@@ -359,7 +359,7 @@ export default function Home() {
               <p className="font-mono text-xs mb-2 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
                 // FEATURED ENGINEERING WORK
               </p>
-              <h2 className="font-display text-4xl sm:text-5xl font-bold text-white">
+              <h2 className="font-display section-title font-bold text-[var(--text-primary)]">
                 Projects That <span className="grad-text">Deliver Value</span>
               </h2>
             </div>
@@ -402,7 +402,7 @@ export default function Home() {
                   </div>
 
                   {/* Title & One-Line Value Proposition */}
-                  <h3 className="font-display text-2xl font-bold text-white mb-2 leading-tight">
+                  <h3 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-2 leading-tight">
                     {proj.title}
                   </h3>
                   <p className="text-sm font-medium mb-5 leading-relaxed" style={{ color: proj.accent }}>
@@ -463,8 +463,7 @@ export default function Home() {
                     href={proj.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 font-mono text-xs transition-colors hover:text-white"
-                    style={{ color: 'rgba(255,255,255,.45)' }}
+                    className="inline-flex items-center gap-1.5 font-mono text-xs transition-colors hover:text-white text-[var(--text-muted)]"
                   >
                     <Github size={14} /> GitHub <ArrowUpRight size={12} />
                   </a>
@@ -483,10 +482,10 @@ export default function Home() {
               <p className="font-mono text-xs mb-2 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
                 // SERVICES &amp; COLLABORATION
               </p>
-              <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mb-3">
+              <h2 className="font-display section-title font-bold text-[var(--text-primary)] mb-3">
                 What I Can <span className="grad-text">Help You With</span>
               </h2>
-              <p className="text-base sm:text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,.6)' }}>
+              <p className="text-base sm:text-lg leading-relaxed text-[var(--text-secondary)]">
                 Practical, production-grounded technical services tailored for engineering teams, startups, and clients seeking verified data analytics and machine learning capabilities.
               </p>
             </div>
@@ -520,13 +519,13 @@ export default function Home() {
                     >
                       <Icon size={22} />
                     </div>
-                    <h3 className="font-display font-semibold text-xl text-white mb-3">{service.title}</h3>
-                    <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,.55)' }}>
+                    <h3 className="font-display font-semibold text-xl text-[var(--text-primary)] mb-3">{service.title}</h3>
+                    <p className="text-sm leading-relaxed mb-6 text-[var(--text-secondary)]">
                       {service.shortDesc}
                     </p>
 
                     <div className="mb-6 space-y-2">
-                      <p className="font-mono text-[11px] uppercase tracking-wider text-white/40">Key Deliverables:</p>
+                      <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">Key Deliverables:</p>
                       {(service.deliverables || []).map((del, i) => (
                         <div key={i} className="flex items-start gap-2 text-xs" style={{ color: 'rgba(255,255,255,.7)' }}>
                           <span className="text-[#00f5d4] mt-0.5">•</span>
@@ -539,7 +538,7 @@ export default function Home() {
                   <div>
                     <div className="flex flex-wrap gap-1.5 mb-6">
                       {(service.tech || []).slice(0, 4).map((t) => (
-                        <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/[0.04] text-white/50">
+                        <span key={t} className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/[0.04] text-[var(--text-muted)]">
                           {t}
                         </span>
                       ))}
@@ -592,11 +591,11 @@ export default function Home() {
                 <p className="font-mono text-xs mb-3 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
                   // LET&apos;S CONNECT
                 </p>
-                <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
+                <h2 className="font-display section-title font-bold text-[var(--text-primary)] mb-6 leading-tight">
                   Have a Data or AI Problem to Solve? <br />
                   <span className="grad-text">Let&apos;s Build the Solution.</span>
                 </h2>
-                <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,.65)' }}>
+                <p className="text-base sm:text-lg leading-relaxed mb-8 text-[var(--text-secondary)]">
                   Whether you are a recruiter seeking a dedicated Data Analyst &amp; ML Engineer for internships or freelance roles, or looking to launch an analytics dashboard or custom AI pipeline — reach out directly through the unified channels.
                 </p>
 
@@ -606,14 +605,14 @@ export default function Home() {
                     className="p-4 rounded-2xl glass border"
                     style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}
                   >
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Location</p>
+                    <p className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">Location</p>
                     <p className="text-sm font-semibold text-white">{PROFILE.location}</p>
                   </div>
                   <div
                     className="p-4 rounded-2xl glass border"
                     style={{ borderColor: 'rgba(0,245,212,0.15)', background: 'rgba(0,245,212,0.02)' }}
                   >
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Availability</p>
+                    <p className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">Availability</p>
                     <p className="text-sm font-semibold text-[#00f5d4] flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#00f5d4] animate-pulse" />
                       Open to internships &amp; freelance
@@ -678,7 +677,7 @@ export default function Home() {
                         <p className="font-display font-semibold text-white text-sm sm:text-base group-hover:text-[#00f5d4] transition-colors">
                           Chat on WhatsApp
                         </p>
-                        <p className="font-mono text-xs text-white/50">+20 109 355 6456</p>
+                        <p className="font-mono text-xs text-[var(--text-muted)]">+20 109 355 6456</p>
                       </div>
                     </div>
                     <ArrowUpRight size={18} className="text-[#00f5d4] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -708,16 +707,16 @@ export default function Home() {
                         <p className="font-display font-semibold text-white text-sm sm:text-base group-hover:text-white transition-colors">
                           Send Email
                         </p>
-                        <p className="font-mono text-xs text-white/50">{PROFILE.email}</p>
+                        <p className="font-mono text-xs text-[var(--text-muted)]">{PROFILE.email}</p>
                       </div>
                     </div>
-                    <ArrowUpRight size={18} className="text-white/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                    <ArrowUpRight size={18} className="text-[var(--text-muted)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                   </a>
                 </div>
 
                 {/* Supporting Profiles Row */}
                 <div className="pt-5 border-t border-white/[0.08]">
-                  <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-3">
+                  <p className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] mb-3">
                     Professional Networks
                   </p>
                   <div className="grid grid-cols-2 gap-3">
@@ -725,7 +724,7 @@ export default function Home() {
                       href={PROFILE.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl glass font-mono text-xs font-semibold text-white/80 hover:text-white hover:border-cyan-400/40 transition-all"
+                      className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl glass font-mono text-xs font-semibold text-[var(--text-primary)] hover:text-white hover:border-cyan-400/40 transition-all"
                       style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
                     >
                       <Linkedin size={14} style={{ color: '#0ea5e9' }} /> LinkedIn
@@ -734,7 +733,7 @@ export default function Home() {
                       href={PROFILE.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl glass font-mono text-xs font-semibold text-white/80 hover:text-white hover:border-cyan-400/40 transition-all"
+                      className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl glass font-mono text-xs font-semibold text-[var(--text-primary)] hover:text-white hover:border-cyan-400/40 transition-all"
                       style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
                     >
                       <Github size={14} /> GitHub

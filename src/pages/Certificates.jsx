@@ -91,10 +91,10 @@ function CertificateModal({ cert, onClose }) {
               style={{ border: '1px solid rgba(255,255,255,0.08)' }}
             />
           ) : (
-            <div className="py-16 text-center text-white/50">
+            <div className="py-16 text-center text-[var(--text-muted)]">
               <CheckCircle2 size={48} className="mx-auto mb-3 text-emerald-400 opacity-80" />
               <p className="text-base text-white">Verified Academic Record</p>
-              <p className="text-xs font-mono text-white/40 mt-1">Direct credential issued by {cert.issuer}</p>
+              <p className="text-xs font-mono text-[var(--text-muted)] mt-1">Direct credential issued by {cert.issuer}</p>
             </div>
           )}
         </div>
@@ -102,10 +102,10 @@ function CertificateModal({ cert, onClose }) {
         {/* Footer Details */}
         <div className="p-4 sm:p-5 border-t border-white/10 bg-black/40 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="space-y-1">
-            {cert.detail && <p className="text-white/70 font-mono">{cert.detail}</p>}
+            {cert.detail && <p className="text-[var(--text-secondary)] font-mono">{cert.detail}</p>}
             {cert.credentialId && (
               <p className="font-mono text-[11px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                Credential ID: <span className="text-white/80">{cert.credentialId}</span>
+                Credential ID: <span className="text-[var(--text-primary)]">{cert.credentialId}</span>
               </p>
             )}
           </div>
@@ -140,8 +140,8 @@ function CertificateGallery({ onSelectCert, certs }) {
           <p className="font-mono text-xs mb-2 tracking-[0.12em]" style={{ color: '#0ea5e9' }}>
             // VISUAL PROOF &amp; ACCREDITATIONS
           </p>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">Selected Credentials</h2>
-          <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Selected Credentials</h2>
+          <p className="text-sm mt-2 text-[var(--text-muted)]">
             Direct visual certificates across Data Analytics, Deep Learning, Generative AI &amp; Business Intelligence. Click any card to inspect full certificate.
           </p>
         </div>
@@ -173,7 +173,7 @@ function CertificateGallery({ onSelectCert, certs }) {
                   <Eye size={16} className="text-white drop-shadow" />
                 </div>
               </div>
-              <p className="font-display font-semibold text-white text-[11px] leading-tight line-clamp-1 group-hover:text-cyan-300 transition-colors">
+              <p className="font-display font-semibold text-[var(--text-primary)] text-[11px] leading-tight line-clamp-1 group-hover:text-cyan-400 transition-colors">
                 {certName}
               </p>
               <p className="font-mono text-[10px] mt-0.5 truncate" style={{ color: certColor }}>
@@ -215,7 +215,7 @@ function CertCard({ cert, index, onSelect }) {
             decoding="async"
           />
           <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors flex items-center justify-center">
-            <Eye size={14} className="text-white/80 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Eye size={14} className="text-[var(--text-primary)] opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
         </div>
       ) : (
@@ -229,11 +229,11 @@ function CertCard({ cert, index, onSelect }) {
 
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <p className="font-display font-semibold text-white text-sm leading-snug mb-1 group-hover:text-cyan-300 transition-colors">
+          <p className="font-display font-semibold text-[var(--text-primary)] text-sm leading-snug mb-1 group-hover:text-cyan-400 transition-colors">
             {certName}
           </p>
           {certImg && (
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded text-white/40 group-hover:text-cyan-300 transition-colors flex items-center gap-1 flex-shrink-0">
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded text-[var(--text-muted)] group-hover:text-cyan-300 transition-colors flex items-center gap-1 flex-shrink-0">
               <Eye size={11} /> View
             </span>
           )}
@@ -241,7 +241,7 @@ function CertCard({ cert, index, onSelect }) {
         <p className="font-semibold text-xs mb-1" style={{ color: certColor }}>
           {cert.issuer}
         </p>
-        <p className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+        <p className="font-mono text-xs text-[var(--text-muted)]">
           {cert.date ? `Issued ${cert.date}` : 'Verified Credential'}
           {cert.expires ? ` · Expires ${cert.expires}` : ''}
           {cert.detail ? ` · ${cert.detail}` : ''}
@@ -359,7 +359,7 @@ export default function Certificates() {
             <br />
             <span className="grad-text">Achievements</span>
           </h1>
-          <p className="text-base max-w-2xl" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          <p className="text-base max-w-2xl text-[var(--text-muted)]">
             A curated, verifiable collection of credentials across Data Analytics, Machine Learning, Generative AI, and Software Engineering.
           </p>
           <div className="flex flex-wrap gap-3 mt-8">

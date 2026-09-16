@@ -1,5 +1,5 @@
-/** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ['class', '[data-theme="dark"]'],
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
@@ -9,19 +9,21 @@ export default {
         mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
-        bg: {
-          primary: '#080810',
-          secondary: '#0d0d1a',
-          card: '#111120',
-          elevated: '#161628',
+        theme: {
+          bg: 'var(--bg-primary)',
+          secondary: 'var(--bg-secondary)',
+          card: 'var(--bg-card)',
+          text: 'var(--text-primary)',
+          muted: 'var(--text-muted)',
+          subtle: 'var(--text-secondary)',
+          border: 'var(--border-subtle)',
         },
         accent: {
-          cyan: '#00f5d4',
-          blue: '#0ea5e9',
-          purple: '#a78bfa',
-          orange: '#fb923c',
+          cyan: 'var(--cyan)',
+          blue: 'var(--blue)',
+          purple: 'var(--purple)',
+          orange: 'var(--orange)',
         },
-        border: 'rgba(255,255,255,0.07)',
       },
       animation: {
         'spin-slow': 'spin 20s linear infinite',
