@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Settings, Download, Upload, ShieldCheck, Activity, Check, AlertTriangle, RefreshCw } from 'lucide-react'
+import { Settings, Download, Upload, ShieldCheck, Activity, Check, AlertTriangle, RefreshCw, Zap } from 'lucide-react'
 import { useData } from '../../context/DataContext'
 import { supabase, isSupabaseConfigured } from '../../lib/supabase'
+import { seedInitialData } from '../../lib/seedDatabase'
 
 export default function SettingsManager() {
-  const { siteSettings, setSiteSettings, projects, certificates, experience, skills, services, profile, logAudit } = useData()
+  const { siteSettings, setSiteSettings, projects, certificates, experience, skills, services, profile, logAudit, refreshData } = useData()
   const { addToast } = useOutletContext()
 
   const [maintenance, setMaintenance] = useState(Boolean(siteSettings?.maintenanceMode))
   const [logs, setLogs] = useState([])
   const [saving, setSaving] = useState(false)
+  const [seeding, setSeeding] = useState(false)
 
   useEffect(() => {
     if (!isSupabaseConfigured() || !supabase) return
@@ -62,6 +64,28 @@ export default function SettingsManager() {
     logAudit('EXPORT_BACKUP', 'system', 'Full JSON Database Export')
   }
 
+  const handleSeedDatabase = async () => {
+    if (!isSupabaseConfigured() || !supabase) {
+      addToast('Supabase is not configured', 'error')
+      return
+    }
+    const confirmed = window.confirm('This will populate any missing initial portfolio records (projects, certificates, services, skills, experience) into Supabase. Existing records will NOT be overwritten or duplicated. Proceed?')
+    if (!confirmed) return
+
+    setSeeding(true)
+    try {
+      const res = await seedInitialData()
+      addToast('Initial portfolio data safely seeded to Supabase', 'success', 'Database Seeded')
+      logAudit('SEED_DATABASE', 'system', 'Populated initial portfolio records')
+      if (refreshData) await refreshData()
+    } catch (e) {
+      console.error(e)
+      addToast('Failed to seed database records', 'error')
+    } finally {
+      setSeeding(false)
+    }
+  }
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
       <div>
@@ -87,6 +111,25 @@ export default function SettingsManager() {
             />
             <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00f5d4]" />
           </label>
+        </div>
+
+        {/* Database Seed & Sync */}
+        <div className="p-4 rounded-2xl glass border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="font-display font-semibold text-sm text-white flex items-center gap-2">
+              <Zap size={15} className="text-amber-400" /> Database Seed &amp; Sync
+            </p>
+            <p className="text-xs text-white/50 mt-0.5">Safely populate missing initial portfolio records (projects, certificates, services, skills, experience) into Supabase without overwriting existing data</p>
+          </div>
+          <button
+            type="button"
+            onClick={handleSeedDatabase}
+            disabled={seeding}
+            className="btn-primary inline-flex items-center gap-2 text-xs font-mono py-2.5 px-4 shrink-0 shadow-lg shadow-amber-500/10"
+          >
+            {seeding ? <Activity className="animate-spin" size={14} /> : <Zap size={14} />}
+            {seeding ? 'Seeding...' : 'Seed Missing Records'}
+          </button>
         </div>
 
         {/* Database Backup & Restore */}

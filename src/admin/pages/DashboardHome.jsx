@@ -22,14 +22,17 @@ import {
 import { useData } from '../../context/DataContext'
 import { useAuth } from '../../context/AuthContext'
 import { supabase, isSupabaseConfigured } from '../../lib/supabase'
+import { seedInitialData } from '../../lib/seedDatabase'
 
 export default function DashboardHome() {
-  const { projects, certificates, experience, skills, services, siteSettings } = useData()
+  const { projects, certificates, experience, skills, services, siteSettings, refreshData, logAudit } = useData()
   const { user } = useAuth()
   const [messagesCount, setMessagesCount] = useState(0)
   const [unreadCount, setUnreadCount] = useState(0)
   const [pageViewsCount, setPageViewsCount] = useState(148) // baseline
   const [recentLogs, setRecentLogs] = useState([])
+  const [seeding, setSeeding] = useState(false)
+  const [seedSuccess, setSeedSuccess] = useState(false)
 
   useEffect(() => {
     if (!isSupabaseConfigured() || !supabase) return
@@ -84,7 +87,7 @@ export default function DashboardHome() {
     },
     {
       title: 'Experience Timeline',
-      value: experience.length || 3,
+      value: experience.length,
       subtitle: 'Career milestones',
       icon: Briefcase,
       accent: '#a78bfa',
@@ -116,8 +119,56 @@ export default function DashboardHome() {
     },
   ]
 
+  const handleSeedDatabase = async () => {
+    if (!isSupabaseConfigured() || !supabase) return
+    setSeeding(true)
+    try {
+      await seedInitialData()
+      if (logAudit) logAudit('SEED_DATABASE', 'system', 'Initialized missing default portfolio records')
+      setSeedSuccess(true)
+      if (refreshData) await refreshData()
+    } catch (err) {
+      console.error('Failed to seed database:', err)
+    } finally {
+      setSeeding(false)
+    }
+  }
+
+  const isDatabaseUnseeded = isSupabaseConfigured() && (projects.length === 0 || certificates.length === 0 || services.length === 0)
+
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Database Initialization Banner if tables are unseeded */}
+      {isDatabaseUnseeded && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-3xl p-6 glass border relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+          style={{
+            background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.12) 0%, rgba(244, 63, 94, 0.08) 100%)',
+            borderColor: 'rgba(251, 146, 60, 0.3)',
+          }}
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-semibold">
+              <Zap size={15} /> INITIAL DATABASE SEED REQUIRED
+            </div>
+            <p className="text-sm text-white/80">
+              Your Supabase connection is active, but portfolio tables are missing default records. Click below to safely populate missing initial portfolio records (idempotent, won't duplicate or overwrite).
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleSeedDatabase}
+            disabled={seeding || seedSuccess}
+            className="btn-primary shrink-0 inline-flex items-center gap-2 text-xs font-mono py-3 px-5 shadow-lg shadow-amber-500/10"
+          >
+            {seeding ? <Activity className="animate-spin" size={15} /> : <CheckCircle2 size={15} />}
+            {seeding ? 'Seeding Database...' : seedSuccess ? 'Database Seeded ✓' : 'Seed Missing Records'}
+          </button>
+        </motion.div>
+      )}
+
       {/* Welcome Hero Banner */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
