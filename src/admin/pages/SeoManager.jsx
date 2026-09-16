@@ -10,7 +10,7 @@ export default function SeoManager() {
   const { addToast } = useOutletContext()
 
   const [formData, setFormData] = useState({
-    siteTitle: siteSettings.siteTitle || 'Mohamed Ebrahim | Data Analyst & ML Engineer',
+    siteTitle: siteSettings?.siteTitle || 'Mohamed Ebrahim | Data Analyst & ML Engineer',
     siteDescription: 'Portfolio of Mohamed Ebrahim — Data Analytics, Machine Learning, Generative AI, and Data Engineering.',
     canonicalUrl: 'https://mhmd-ebrahim-1.github.io/',
     ogImage: 'https://mhmd-ebrahim-1.github.io/profile.jpg',

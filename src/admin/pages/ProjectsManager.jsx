@@ -70,11 +70,13 @@ export default function ProjectsManager() {
   const [techInput, setTechInput] = useState('')
 
   // Filtered list
-  const filtered = projects.filter((p) => {
+  const filtered = (projects || []).filter((p) => {
+    const title = p.title || ''
+    const shortDesc = p.shortDesc || p.description || ''
     const matchSearch =
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.shortDesc?.toLowerCase().includes(search.toLowerCase()) ||
-      p.tech?.some((t) => t.toLowerCase().includes(search.toLowerCase()))
+      title.toLowerCase().includes(search.toLowerCase()) ||
+      shortDesc.toLowerCase().includes(search.toLowerCase()) ||
+      (p.tech || []).some((t) => (t || '').toLowerCase().includes(search.toLowerCase()))
     const matchCat = selectedCategory === 'all' || p.category === selectedCategory
     return matchSearch && matchCat
   })

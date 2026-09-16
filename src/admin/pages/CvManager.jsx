@@ -9,7 +9,7 @@ export default function CvManager() {
   const { siteSettings, setSiteSettings, logAudit } = useData()
   const { addToast } = useOutletContext()
 
-  const [cvUrl, setCvUrl] = useState(siteSettings.cvUrl || '/Mohamed-Ebrahim-CV.pdf')
+  const [cvUrl, setCvUrl] = useState(siteSettings?.cvUrl || '/Mohamed-Ebrahim-CV.pdf')
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
 

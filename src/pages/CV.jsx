@@ -83,10 +83,11 @@ function TimelineItem({ item, index, isEdu = false }) {
 }
 
 export default function CV() {
-  const { profile, siteSettings, experience } = useData()
+  const { profile, siteSettings, experience, skills } = useData()
   const PROFILE = profile || STATIC_PROFILE
   const EXPERIENCE = (experience && experience.length > 0) ? experience : STATIC_EXPERIENCE
-  const cvDownloadUrl = siteSettings.cvUrl || `${BASE_URL}${DEFAULT_CV_FILE}`
+  const SKILLS_DATA = skills || STATIC_SKILLS
+  const cvDownloadUrl = siteSettings?.cvUrl || `${BASE_URL}${DEFAULT_CV_FILE}`
 
   return (
     <div className="page-transition min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-10">
@@ -238,7 +239,7 @@ export default function CV() {
               <div>
                 <h3 className="font-display font-semibold text-white text-lg mb-6">Core Competencies</h3>
                 <div className="space-y-6">
-                  {Object.entries(SKILLS || {}).map(([key, domain]) => (
+                  {Object.entries(SKILLS_DATA || {}).map(([key, domain]) => (
                     <div key={key}>
                       <p className="font-mono text-xs mb-2 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
                         {domain?.title || key}

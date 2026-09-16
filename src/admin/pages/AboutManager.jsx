@@ -10,13 +10,13 @@ export default function AboutManager() {
   const { addToast } = useOutletContext()
 
   const [formData, setFormData] = useState({
-    bio: profile.bio || '',
-    bio2: profile.bio2 || '',
-    location: profile.location || 'Mansoura, Egypt',
-    university: profile.university || 'Kafr El-Sheikh University',
-    degree: profile.degree || 'B.Sc. Artificial Intelligence',
-    graduationYear: profile.graduationYear || '2023 – 2027',
-    status: profile.status || 'Open to internships & freelance opportunities',
+    bio: profile?.bio || '',
+    bio2: profile?.bio2 || '',
+    location: profile?.location || 'Mansoura, Egypt',
+    university: profile?.university || 'Kafr El-Sheikh University',
+    degree: profile?.degree || 'B.Sc. Artificial Intelligence',
+    graduationYear: profile?.graduationYear || '2023 – 2027',
+    status: profile?.status || 'Open to internships & freelance opportunities',
   })
   const [saving, setSaving] = useState(false)
 

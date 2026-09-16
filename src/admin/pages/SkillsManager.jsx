@@ -14,7 +14,7 @@ export default function SkillsManager() {
   const [newSkillText, setNewSkillText] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const currentDomainData = skills[activeDomain] || { title: activeDomain, description: '', skills: [] }
+  const currentDomainData = (skills && skills[activeDomain]) ? skills[activeDomain] : { title: activeDomain, description: '', skills: [] }
 
   const handleAddSkill = () => {
     if (!newSkillText.trim()) return
@@ -22,7 +22,7 @@ export default function SkillsManager() {
     if (currentDomainData.skills?.includes(skillName)) return
 
     const updatedSkills = {
-      ...skills,
+      ...(skills || {}),
       [activeDomain]: {
         ...currentDomainData,
         skills: [...(currentDomainData.skills || []), skillName],
@@ -36,10 +36,10 @@ export default function SkillsManager() {
 
   const handleRemoveSkill = (skillName) => {
     const updatedSkills = {
-      ...skills,
+      ...(skills || {}),
       [activeDomain]: {
         ...currentDomainData,
-        skills: currentDomainData.skills.filter((s) => s !== skillName),
+        skills: (currentDomainData.skills || []).filter((s) => s !== skillName),
       },
     }
     setSkills(updatedSkills)
@@ -50,7 +50,7 @@ export default function SkillsManager() {
     setSaving(true)
     try {
       if (isSupabaseConfigured() && supabase) {
-        for (const [key, domain] of Object.entries(skills)) {
+        for (const [key, domain] of Object.entries(skills || {})) {
           await supabase.from('skills').upsert({
             domain_key: key,
             domain_title: domain.title,
@@ -88,7 +88,7 @@ export default function SkillsManager() {
 
       {/* Domain Selection Tabs */}
       <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl glass border border-white/[0.08]">
-        {Object.entries(skills).map(([key, domain]) => (
+        {Object.entries(skills || {}).map(([key, domain]) => (
           <button
             key={key}
             onClick={() => setActiveDomain(key)}

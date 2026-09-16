@@ -9,7 +9,7 @@ export default function AnalyticsManager() {
   const { siteSettings, setSiteSettings, logAudit } = useData()
   const { addToast } = useOutletContext()
 
-  const [gaId, setGaId] = useState(siteSettings.gaMeasurementId || '')
+  const [gaId, setGaId] = useState(siteSettings?.gaMeasurementId || '')
   const [pageViews, setPageViews] = useState([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)

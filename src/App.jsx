@@ -161,22 +161,22 @@ function LayoutContent() {
         <footer className="py-12 px-6 text-center border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Designed &amp; Built by <span style={{ color: '#00f5d4' }}>{profile.name}</span> · {profile.title}
+              Designed &amp; Built by <span style={{ color: '#00f5d4' }}>{profile?.name || PROFILE.name}</span> · {profile?.title || PROFILE.title}
             </p>
             <div className="flex items-center gap-4 font-mono text-xs text-white/40">
-              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              <a href={profile?.github || PROFILE.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                 GitHub
               </a>
               <span>•</span>
-              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              <a href={profile?.linkedin || PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                 LinkedIn
               </a>
               <span>•</span>
-              <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-[#00f5d4] transition-colors">
+              <a href={profile?.whatsapp || PROFILE.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-[#00f5d4] transition-colors">
                 WhatsApp
               </a>
               <span>•</span>
-              <a href={`mailto:${profile.email}`} className="hover:text-[#00f5d4] transition-colors">
+              <a href={`mailto:${profile?.email || PROFILE.email}`} className="hover:text-[#00f5d4] transition-colors">
                 Email
               </a>
             </div>

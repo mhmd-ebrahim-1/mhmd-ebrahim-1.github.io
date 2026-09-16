@@ -309,11 +309,11 @@ export default function DashboardHome() {
               </div>
               <div className="flex items-center justify-between p-3 rounded-xl glass border border-white/5">
                 <span className="text-white/50">CV File</span>
-                <span className="text-[#00f5d4] truncate max-w-[150px]">{siteSettings.cvUrl}</span>
+                <span className="text-[#00f5d4] truncate max-w-[150px]">{siteSettings?.cvUrl || '/Mohamed-Ebrahim-CV.pdf'}</span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-xl glass border border-white/5">
                 <span className="text-white/50">Contact Email</span>
-                <span className="text-white truncate max-w-[150px]">{siteSettings.contactEmail}</span>
+                <span className="text-white truncate max-w-[150px]">{siteSettings?.contactEmail || 'mhmd_ebrahim_1@outlook.com'}</span>
               </div>
             </div>
           </div>

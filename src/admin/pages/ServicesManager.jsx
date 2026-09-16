@@ -38,7 +38,7 @@ export default function ServicesManager() {
     setEditingService({
       ...INITIAL_SERVICE,
       id: `service-${Date.now().toString().slice(-4)}`,
-      displayOrder: services.length + 1,
+      displayOrder: (services || []).length + 1,
     })
     setTechInput('')
     setDelivInput('')

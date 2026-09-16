@@ -111,7 +111,7 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
           </p>
 
           <div className="flex flex-wrap gap-1.5 mb-5">
-            {proj.tech?.map((t) => (
+            {(proj.tech || []).map((t) => (
               <span
                 key={t}
                 className="font-mono text-[11px] px-2 py-0.5 rounded"

@@ -65,7 +65,7 @@ const domains = [
 ]
 
 export default function Home() {
-  const { profile, projects, services } = useData()
+  const { profile, projects, services, siteSettings } = useData()
   const PROFILE = profile || STATIC_PROFILE
   const PROJECTS = projects || STATIC_PROJECTS
   const SERVICES = services || STATIC_SERVICES

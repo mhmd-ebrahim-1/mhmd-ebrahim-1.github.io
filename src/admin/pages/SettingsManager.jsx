@@ -9,7 +9,7 @@ export default function SettingsManager() {
   const { siteSettings, setSiteSettings, projects, certificates, experience, skills, services, profile, logAudit } = useData()
   const { addToast } = useOutletContext()
 
-  const [maintenance, setMaintenance] = useState(Boolean(siteSettings.maintenanceMode))
+  const [maintenance, setMaintenance] = useState(Boolean(siteSettings?.maintenanceMode))
   const [logs, setLogs] = useState([])
   const [saving, setSaving] = useState(false)
 

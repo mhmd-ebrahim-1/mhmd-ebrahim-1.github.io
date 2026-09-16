@@ -10,13 +10,13 @@ export default function ContactManager() {
   const { addToast } = useOutletContext()
 
   const [formData, setFormData] = useState({
-    email: profile.email || 'mhmd_ebrahim_1@outlook.com',
-    whatsapp: profile.whatsapp || 'https://wa.me/201093556456?text=Hello%20Mohamed%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project%20%2F%20opportunity.',
-    whatsappPhone: siteSettings.whatsappNumber || '201093556456',
-    linkedin: profile.linkedin || 'https://www.linkedin.com/in/mhmd-ebrahim1/',
-    github: profile.github || 'https://github.com/mhmd-ebrahim-1',
-    twitter: profile.twitter || 'https://x.com/mhmd_ebrahim_1',
-    instagram: profile.instagram || 'https://www.instagram.com/mhmd_ebrahim_1',
+    email: profile?.email || 'mhmd_ebrahim_1@outlook.com',
+    whatsapp: profile?.whatsapp || 'https://wa.me/201093556456?text=Hello%20Mohamed%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project%20%2F%20opportunity.',
+    whatsappPhone: siteSettings?.whatsappNumber || '201093556456',
+    linkedin: profile?.linkedin || 'https://www.linkedin.com/in/mhmd-ebrahim1/',
+    github: profile?.github || 'https://github.com/mhmd-ebrahim-1',
+    twitter: profile?.twitter || 'https://x.com/mhmd_ebrahim_1',
+    instagram: profile?.instagram || 'https://www.instagram.com/mhmd_ebrahim_1',
   })
   const [saving, setSaving] = useState(false)
 

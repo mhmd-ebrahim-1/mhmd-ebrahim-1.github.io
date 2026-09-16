@@ -39,17 +39,17 @@ export default function CertificatesManager() {
   const [saving, setSaving] = useState(false)
   const [skillsInput, setSkillsInput] = useState('')
 
-  const filtered = certificates.filter(
+  const filtered = (certificates || []).filter(
     (c) =>
-      c.title.toLowerCase().includes(search.toLowerCase()) ||
-      c.issuer.toLowerCase().includes(search.toLowerCase())
+      (c.title || '').toLowerCase().includes(search.toLowerCase()) ||
+      (c.issuer || '').toLowerCase().includes(search.toLowerCase())
   )
 
   const openNew = () => {
     setEditingCert({
       ...INITIAL_CERT,
       slug: `cert-${Date.now().toString().slice(-4)}`,
-      displayOrder: certificates.length + 1,
+      displayOrder: (certificates || []).length + 1,
     })
     setSkillsInput('')
     setModalOpen(true)

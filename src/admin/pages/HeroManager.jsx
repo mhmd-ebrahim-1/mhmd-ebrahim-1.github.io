@@ -11,12 +11,12 @@ export default function HeroManager() {
   const { addToast } = useOutletContext()
 
   const [formData, setFormData] = useState({
-    name: profile.name || 'Mohamed Ebrahim',
-    fullName: profile.fullName || 'Mohamed Ebrahim Hamed',
-    title: profile.title || 'Data Analyst & ML Engineer',
-    rolesInput: profile.roles ? profile.roles.join(', ') : 'Data Analyst, Machine Learning Engineer, AI & RAG Developer, Data Engineering Practitioner',
-    status: profile.status || 'Open to internships & freelance opportunities',
-    location: profile.location || 'Mansoura, Egypt',
+    name: profile?.name || 'Mohamed Ebrahim',
+    fullName: profile?.fullName || 'Mohamed Ebrahim Hamed',
+    title: profile?.title || 'Data Analyst & ML Engineer',
+    rolesInput: profile?.roles ? profile.roles.join(', ') : 'Data Analyst, Machine Learning Engineer, AI & RAG Developer, Data Engineering Practitioner',
+    status: profile?.status || 'Open to internships & freelance opportunities',
+    location: profile?.location || 'Mansoura, Egypt',
     avatarImage: '/profile-home-about.webp',
   })
   const [saving, setSaving] = useState(false)

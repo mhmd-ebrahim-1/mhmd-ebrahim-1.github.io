@@ -134,7 +134,7 @@ export default function Services() {
                   {/* Deliverables List */}
                   <div className="mb-6 space-y-2.5 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                     <p className="font-mono text-[11px] uppercase tracking-wider text-white/40">Key Deliverables:</p>
-                    {service.deliverables.map((del, i) => (
+                    {(service.deliverables || []).map((del, i) => (
                       <div key={i} className="flex items-start gap-2.5 text-xs leading-normal" style={{ color: 'rgba(255,255,255,.75)' }}>
                         <CheckCircle2 size={13} className="shrink-0 mt-0.5" style={{ color: accent }} />
                         <span>{del}</span>
@@ -146,7 +146,7 @@ export default function Services() {
                 <div>
                   {/* Tech Stack Pills */}
                   <div className="flex flex-wrap gap-1.5 mb-6 pt-3">
-                    {service.tech.map((t) => (
+                    {(service.tech || []).map((t) => (
                       <span
                         key={t}
                         className="font-mono text-[10px] px-2.5 py-1 rounded-md"
