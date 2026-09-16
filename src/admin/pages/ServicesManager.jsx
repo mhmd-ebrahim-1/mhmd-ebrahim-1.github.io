@@ -61,14 +61,15 @@ export default function ServicesManager() {
     setSaving(true)
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('services').delete().eq('id', deletingId)
+        const { error } = await supabase.from('services').delete().eq('id', deletingId)
+        if (error) throw error
       }
-      setServices((prev) => prev.filter((s) => s.id !== deletingId))
+      setServices((prev) => (prev || []).filter((s) => s.id !== deletingId))
       addToast('Service removed successfully', 'success', 'Deleted')
-      logAudit('DELETE', 'service', deletingId)
+      logAudit('DELETE', 'service', String(deletingId))
     } catch (e) {
       console.error(e)
-      addToast('Failed to delete service', 'error')
+      addToast(e.message || 'Failed to delete service', 'error')
     } finally {
       setSaving(false)
       setConfirmOpen(false)

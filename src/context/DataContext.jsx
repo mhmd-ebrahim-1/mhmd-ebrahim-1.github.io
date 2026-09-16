@@ -39,8 +39,8 @@ export function DataProvider({ children }) {
   const isFetchingRef = useRef(false)
 
   // Load from Supabase with Independent Query Fallbacks
-  const fetchData = useCallback(async () => {
-    if (isFetchingRef.current) return
+  const fetchData = useCallback(async (force = false) => {
+    if (isFetchingRef.current && !force) return
     isFetchingRef.current = true
 
     if (!isSupabaseConfigured() || !supabase) {
@@ -113,7 +113,7 @@ export function DataProvider({ children }) {
           .select('*')
           .order('display_order', { ascending: true })
 
-        if (!projErr && Array.isArray(dbProjects) && dbProjects.length > 0) {
+        if (!projErr && Array.isArray(dbProjects)) {
           const mapped = dbProjects.map((p) => ({
             id: p.id,
             slug: p.slug || `project-${p.id}`,
@@ -150,7 +150,7 @@ export function DataProvider({ children }) {
           .select('*')
           .order('display_order', { ascending: true })
 
-        if (!certErr && Array.isArray(dbCerts) && dbCerts.length > 0) {
+        if (!certErr && Array.isArray(dbCerts)) {
           const mappedCerts = dbCerts.map((c) => ({
             id: c.id,
             slug: c.slug || `cert-${c.id}`,
@@ -187,7 +187,7 @@ export function DataProvider({ children }) {
           .select('*')
           .order('display_order', { ascending: true })
 
-        if (!expErr && Array.isArray(dbExp) && dbExp.length > 0) {
+        if (!expErr && Array.isArray(dbExp)) {
           const mappedExp = dbExp.map((e) => ({
             id: e.id,
             role: e.role,
@@ -220,7 +220,7 @@ export function DataProvider({ children }) {
           .select('*')
           .order('display_order', { ascending: true })
 
-        if (!servErr && Array.isArray(dbServices) && dbServices.length > 0) {
+        if (!servErr && Array.isArray(dbServices)) {
           const mappedServ = dbServices.map((s) => ({
             id: s.id,
             title: s.title,
@@ -274,7 +274,7 @@ export function DataProvider({ children }) {
           .select('*')
           .order('display_order', { ascending: true })
 
-        if (!linksErr && Array.isArray(dbLinks) && dbLinks.length > 0) {
+        if (!linksErr && Array.isArray(dbLinks)) {
           setSocialLinks(dbLinks)
           anySuccessful = true
         }
@@ -365,7 +365,7 @@ export function DataProvider({ children }) {
     setSocialLinks,
     credentialsStrip,
     setCredentialsStrip,
-    refreshData: fetchData,
+    refreshData: () => fetchData(true),
     logAudit,
     submitContactMessage,
     recordPageView,

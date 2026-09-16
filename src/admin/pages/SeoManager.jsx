@@ -25,13 +25,14 @@ export default function SeoManager() {
 
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('site_settings').update({
+        const { error } = await supabase.from('site_settings').update({
           site_title: formData.siteTitle,
           site_description: formData.siteDescription,
           canonical_url: formData.canonicalUrl,
           og_image: formData.ogImage,
           twitter_handle: formData.twitterHandle,
         }).eq('id', 'global')
+        if (error) throw error
       }
 
       setSiteSettings((prev) => ({

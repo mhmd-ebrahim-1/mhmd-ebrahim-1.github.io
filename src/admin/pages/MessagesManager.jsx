@@ -56,14 +56,15 @@ export default function MessagesManager() {
   const confirmDelete = async () => {
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('contact_messages').delete().eq('id', deletingId)
+        const { error } = await supabase.from('contact_messages').delete().eq('id', deletingId)
+        if (error) throw error
       }
-      setMessages((prev) => prev.filter((m) => m.id !== deletingId))
+      setMessages((prev) => (prev || []).filter((m) => m.id !== deletingId))
       if (selectedMessage?.id === deletingId) setSelectedMessage(null)
       addToast('Message deleted', 'success')
     } catch (e) {
       console.error(e)
-      addToast('Failed to delete message', 'error')
+      addToast(e.message || 'Failed to delete message', 'error')
     } finally {
       setConfirmOpen(false)
       setDeletingId(null)

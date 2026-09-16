@@ -32,7 +32,7 @@ export default function HeroManager() {
 
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('hero').upsert({
+        const { error } = await supabase.from('hero').upsert({
           id: 'main',
           name: formData.name,
           full_name: formData.fullName,
@@ -42,6 +42,7 @@ export default function HeroManager() {
           location: formData.location,
           avatar_image: formData.avatarImage,
         })
+        if (error) throw error
       }
 
       setProfile((prev) => ({

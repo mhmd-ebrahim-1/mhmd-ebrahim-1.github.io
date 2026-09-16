@@ -118,14 +118,15 @@ export default function ProjectsManager() {
     setSaving(true)
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('projects').delete().eq('id', deletingId)
+        const { error } = await supabase.from('projects').delete().eq('id', deletingId)
+        if (error) throw error
       }
-      setProjects((prev) => prev.filter((p) => p.id !== deletingId))
+      setProjects((prev) => (prev || []).filter((p) => p.id !== deletingId))
       addToast('Project deleted successfully', 'success', 'Deleted')
       logAudit('DELETE', 'project', `Project #${deletingId}`)
     } catch (e) {
       console.error(e)
-      addToast('Failed to delete project', 'error')
+      addToast(e.message || 'Failed to delete project', 'error')
     } finally {
       setSaving(false)
       setConfirmOpen(false)
@@ -171,7 +172,8 @@ export default function ProjectsManager() {
         }
 
         if (payload.id && typeof payload.id === 'number') {
-          await supabase.from('projects').update(dbPayload).eq('id', payload.id)
+          const { error } = await supabase.from('projects').update(dbPayload).eq('id', payload.id)
+          if (error) throw error
         } else {
           const { data, error } = await supabase.from('projects').insert([dbPayload]).select()
           if (error) throw error

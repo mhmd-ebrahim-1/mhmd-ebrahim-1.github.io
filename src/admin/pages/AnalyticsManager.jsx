@@ -37,9 +37,10 @@ export default function AnalyticsManager() {
 
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('site_settings').update({
+        const { error } = await supabase.from('site_settings').update({
           ga_measurement_id: gaId,
         }).eq('id', 'global')
+        if (error) throw error
       }
 
       setSiteSettings((prev) => ({

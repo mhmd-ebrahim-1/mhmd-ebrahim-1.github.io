@@ -51,12 +51,13 @@ export default function SkillsManager() {
     try {
       if (isSupabaseConfigured() && supabase) {
         for (const [key, domain] of Object.entries(skills || {})) {
-          await supabase.from('skills').upsert({
+          const { error } = await supabase.from('skills').upsert({
             domain_key: key,
             domain_title: domain.title,
             domain_description: domain.description,
             skills: domain.skills,
           }, { onConflict: 'domain_key' })
+          if (error) throw error
         }
       }
       addToast('All skills saved successfully to backend', 'success', 'Saved')

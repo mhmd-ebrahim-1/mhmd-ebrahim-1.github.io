@@ -70,14 +70,15 @@ export default function CertificatesManager() {
     setSaving(true)
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('certificates').delete().eq('id', deletingId)
+        const { error } = await supabase.from('certificates').delete().eq('id', deletingId)
+        if (error) throw error
       }
-      setCertificates((prev) => prev.filter((c) => c.id !== deletingId))
+      setCertificates((prev) => (prev || []).filter((c) => c.id !== deletingId))
       addToast('Certificate deleted successfully', 'success', 'Deleted')
       logAudit('DELETE', 'certificate', `Certificate #${deletingId}`)
     } catch (e) {
       console.error(e)
-      addToast('Failed to delete certificate', 'error')
+      addToast(e.message || 'Failed to delete certificate', 'error')
     } finally {
       setSaving(false)
       setConfirmOpen(false)
@@ -121,7 +122,8 @@ export default function CertificatesManager() {
         }
 
         if (payload.id && typeof payload.id === 'number') {
-          await supabase.from('certificates').update(dbPayload).eq('id', payload.id)
+          const { error } = await supabase.from('certificates').update(dbPayload).eq('id', payload.id)
+          if (error) throw error
         } else {
           const { data, error } = await supabase.from('certificates').insert([dbPayload]).select()
           if (error) throw error

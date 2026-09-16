@@ -26,20 +26,22 @@ export default function AboutManager() {
 
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('about').upsert({
+        const { error: aboutErr } = await supabase.from('about').upsert({
           id: 'main',
           location: formData.location,
           university: formData.university,
           degree: formData.degree,
           graduation_year: formData.graduationYear,
         })
+        if (aboutErr) throw aboutErr
 
-        await supabase.from('hero').update({
+        const { error: heroErr } = await supabase.from('hero').update({
           bio: formData.bio,
           bio2: formData.bio2,
           location: formData.location,
           status: formData.status,
         }).eq('id', 'main')
+        if (heroErr) throw heroErr
       }
 
       setProfile((prev) => ({

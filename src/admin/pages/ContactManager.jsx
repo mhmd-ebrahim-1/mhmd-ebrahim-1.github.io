@@ -26,10 +26,11 @@ export default function ContactManager() {
 
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('site_settings').update({
+        const { error: settingsErr } = await supabase.from('site_settings').update({
           contact_email: formData.email,
           whatsapp_number: formData.whatsappPhone,
         }).eq('id', 'global')
+        if (settingsErr) throw settingsErr
 
         // Update social links
         const socialItems = [
@@ -40,7 +41,8 @@ export default function ContactManager() {
         ]
 
         for (const item of socialItems) {
-          await supabase.from('social_links').upsert(item, { onConflict: 'id' })
+          const { error: linkErr } = await supabase.from('social_links').upsert(item, { onConflict: 'id' })
+          if (linkErr) throw linkErr
         }
       }
 

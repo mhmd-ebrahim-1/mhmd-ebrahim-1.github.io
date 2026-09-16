@@ -30,7 +30,8 @@ export default function SettingsManager() {
     setSiteSettings((prev) => ({ ...prev, maintenanceMode: checked }))
 
     if (isSupabaseConfigured() && supabase) {
-      await supabase.from('site_settings').update({ maintenance_mode: checked }).eq('id', 'global')
+      const { error } = await supabase.from('site_settings').update({ maintenance_mode: checked }).eq('id', 'global')
+      if (error) console.error('Failed to update maintenance mode:', error)
     }
     addToast(`Maintenance mode is now ${checked ? 'ENABLED' : 'DISABLED'}`, checked ? 'warning' : 'success')
     logAudit('TOGGLE', 'settings', `Maintenance Mode: ${checked}`)

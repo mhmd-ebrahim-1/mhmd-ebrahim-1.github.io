@@ -47,9 +47,10 @@ export default function CvManager() {
 
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('site_settings').update({
+        const { error } = await supabase.from('site_settings').update({
           cv_url: cvUrl,
         }).eq('id', 'global')
+        if (error) throw error
       }
 
       setSiteSettings((prev) => ({

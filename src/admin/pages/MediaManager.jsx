@@ -91,13 +91,14 @@ export default function MediaManager() {
     if (!deletingFile) return
     try {
       if (supabase) {
-        await supabase.storage.from(activeBucket).remove([deletingFile.name])
+        const { error } = await supabase.storage.from(activeBucket).remove([deletingFile.name])
+        if (error) throw error
       }
-      setFiles((prev) => prev.filter((f) => f.name !== deletingFile.name))
+      setFiles((prev) => (prev || []).filter((f) => f.name !== deletingFile.name))
       addToast('File deleted', 'success')
     } catch (e) {
       console.error(e)
-      addToast('Failed to delete file', 'error')
+      addToast(e.message || 'Failed to delete file', 'error')
     } finally {
       setConfirmOpen(false)
       setDeletingFile(null)

@@ -56,14 +56,15 @@ export default function ExperienceManager() {
     setSaving(true)
     try {
       if (isSupabaseConfigured() && supabase) {
-        await supabase.from('experience').delete().eq('id', deletingId)
+        const { error } = await supabase.from('experience').delete().eq('id', deletingId)
+        if (error) throw error
       }
-      setExperience((prev) => prev.filter((e) => e.id !== deletingId))
+      setExperience((prev) => (prev || []).filter((e) => e.id !== deletingId))
       addToast('Experience item deleted', 'success', 'Deleted')
       logAudit('DELETE', 'experience', `Experience #${deletingId}`)
     } catch (e) {
       console.error(e)
-      addToast('Failed to delete item', 'error')
+      addToast(e.message || 'Failed to delete item', 'error')
     } finally {
       setSaving(false)
       setConfirmOpen(false)
@@ -101,7 +102,8 @@ export default function ExperienceManager() {
         }
 
         if (payload.id && typeof payload.id === 'number') {
-          await supabase.from('experience').update(dbPayload).eq('id', payload.id)
+          const { error } = await supabase.from('experience').update(dbPayload).eq('id', payload.id)
+          if (error) throw error
         } else {
           const { data, error } = await supabase.from('experience').insert([dbPayload]).select()
           if (error) throw error
