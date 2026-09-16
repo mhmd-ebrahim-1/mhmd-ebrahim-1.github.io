@@ -22,7 +22,7 @@ import {
   Layers,
 } from 'lucide-react'
 import { PROFILE, PROJECTS, SERVICES } from '../data'
-import { getWhatsAppServiceUrl } from '../config/contact'
+import { getEmailServiceUrl } from '../config/contact'
 import TrustStrip from '../components/TrustStrip'
 import CaseStudyModal from '../components/CaseStudyModal'
 import WhatsAppIcon from '../components/WhatsAppIcon'
@@ -159,45 +159,26 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Social & Direct Contact Links */}
+            {/* Professional Profiles */}
             <div className="flex items-center gap-3">
-              <a
-                href={PROFILE.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat on WhatsApp"
-                className="w-11 h-11 rounded-xl glass flex items-center justify-center transition-all hover:-translate-y-1 hover:border-emerald-400/50 hover:text-emerald-400"
-                style={{ color: '#00f5d4' }}
-              >
-                <WhatsAppIcon size={19} />
-              </a>
-              <a
-                href={`mailto:${PROFILE.email}`}
-                aria-label="Send Email"
-                className="w-11 h-11 rounded-xl glass flex items-center justify-center transition-transform hover:-translate-y-1 hover:border-cyan-400/40 hover:text-[#00f5d4]"
-                style={{ color: 'rgba(255,255,255,.75)' }}
-              >
-                <Mail size={18} />
-              </a>
+              <span className="font-mono text-xs uppercase tracking-wider text-white/40 mr-1">Profiles:</span>
               <a
                 href={PROFILE.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn Profile"
-                className="w-11 h-11 rounded-xl glass flex items-center justify-center transition-transform hover:-translate-y-1 hover:border-cyan-400/40"
-                style={{ color: 'rgba(255,255,255,.75)' }}
+                className="px-3.5 py-2 rounded-xl glass flex items-center gap-2 font-mono text-xs text-white/80 hover:text-white hover:border-cyan-400/40 transition-all hover:-translate-y-0.5"
               >
-                <Linkedin size={18} />
+                <Linkedin size={15} style={{ color: '#0ea5e9' }} /> LinkedIn
               </a>
               <a
                 href={PROFILE.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub Profile"
-                className="w-11 h-11 rounded-xl glass flex items-center justify-center transition-transform hover:-translate-y-1 hover:border-cyan-400/40"
-                style={{ color: 'rgba(255,255,255,.75)' }}
+                className="px-3.5 py-2 rounded-xl glass flex items-center gap-2 font-mono text-xs text-white/80 hover:text-white hover:border-cyan-400/40 transition-all hover:-translate-y-0.5"
               >
-                <Github size={18} />
+                <Github size={15} /> GitHub
               </a>
             </div>
           </motion.div>
@@ -551,13 +532,11 @@ export default function Home() {
                       ))}
                     </div>
                     <a
-                      href={getWhatsAppServiceUrl(service.title)}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={getEmailServiceUrl(service.title, service.emailSubject)}
                       className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl font-mono text-xs font-semibold glass hover:border-cyan-400/50 transition-all hover:text-white"
                       style={{ color: '#00f5d4', border: '1px solid rgba(0,245,212,0.25)' }}
                     >
-                      <WhatsAppIcon size={14} /> {service.cta}
+                      <Mail size={14} /> {service.cta}
                     </a>
                   </div>
                 </motion.div>
@@ -605,91 +584,136 @@ export default function Home() {
                   <span className="grad-text">Let&apos;s Build the Solution.</span>
                 </h2>
                 <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,.65)' }}>
-                  Whether you are a recruiter seeking a dedicated Data Analyst &amp; ML Engineer for internships or freelance roles, or looking to launch an analytics dashboard or custom AI pipeline — reach out directly via WhatsApp or Email.
+                  Whether you are a recruiter seeking a dedicated Data Analyst &amp; ML Engineer for internships or freelance roles, or looking to launch an analytics dashboard or custom AI pipeline — reach out directly through the unified channels.
                 </p>
 
-                <div className="flex flex-wrap gap-3.5">
+                {/* Location & Status Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                  <div
+                    className="p-4 rounded-2xl glass border"
+                    style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}
+                  >
+                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Location</p>
+                    <p className="text-sm font-semibold text-white">{PROFILE.location}</p>
+                  </div>
+                  <div
+                    className="p-4 rounded-2xl glass border"
+                    style={{ borderColor: 'rgba(0,245,212,0.15)', background: 'rgba(0,245,212,0.02)' }}
+                  >
+                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Availability</p>
+                    <p className="text-sm font-semibold text-[#00f5d4] flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00f5d4] animate-pulse" />
+                      Open to internships &amp; freelance
+                    </p>
+                  </div>
+                </div>
+
+                <Link to="/projects" className="btn-ghost inline-flex items-center gap-2 text-sm">
+                  <ArrowRight size={15} style={{ color: '#00f5d4' }} /> Explore Featured Projects
+                </Link>
+              </div>
+
+              {/* Unified Premium Contact Hub Card */}
+              <div
+                className="p-7 sm:p-9 rounded-3xl glass border relative overflow-hidden"
+                style={{
+                  borderColor: 'rgba(0,245,212,0.2)',
+                  background: 'linear-gradient(145deg, rgba(16,18,34,0.92) 0%, rgba(8,10,20,0.96) 100%)',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(0,245,212,0.04)',
+                }}
+              >
+                <div className="flex items-center justify-between gap-4 pb-5 border-b border-white/[0.08]">
+                  <div>
+                    <span className="font-mono text-[10px] tracking-wider uppercase" style={{ color: '#00f5d4' }}>
+                      DIRECT CHANNELS
+                    </span>
+                    <h3 className="font-display font-bold text-white text-xl mt-0.5">Contact Hub</h3>
+                  </div>
+                  <span
+                    className="px-2.5 py-1 rounded-full font-mono text-[11px] flex items-center gap-1.5 font-medium"
+                    style={{
+                      background: 'rgba(0,245,212,0.08)',
+                      border: '1px solid rgba(0,245,212,0.2)',
+                      color: '#00f5d4',
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00f5d4] animate-pulse" />
+                    Available
+                  </span>
+                </div>
+
+                <div className="space-y-4 py-6">
+                  {/* Primary: WhatsApp */}
                   <a
                     href={PROFILE.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-primary inline-flex items-center gap-2.5 shadow-lg shadow-emerald-500/10"
+                    className="w-full flex items-center justify-between p-4 rounded-2xl transition-all group hover:scale-[1.01] hover:shadow-lg hover:shadow-emerald-500/10"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(0,245,212,0.14) 0%, rgba(14,165,233,0.1) 100%)',
+                      border: '1px solid rgba(0,245,212,0.35)',
+                    }}
                   >
-                    <WhatsAppIcon size={18} /> Chat on WhatsApp
+                    <div className="flex items-center gap-3.5">
+                      <div
+                        className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ background: 'linear-gradient(135deg,#00f5d4,#0ea5e9)', color: '#080810' }}
+                      >
+                        <WhatsAppIcon size={20} />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-display font-semibold text-white text-sm sm:text-base group-hover:text-[#00f5d4] transition-colors">
+                          Chat on WhatsApp
+                        </p>
+                        <p className="font-mono text-xs text-white/50">+20 109 355 6456</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight size={18} className="text-[#00f5d4] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
+
+                  {/* Secondary: Email */}
                   <a
                     href={`mailto:${PROFILE.email}`}
-                    className="btn-ghost inline-flex items-center gap-2"
+                    className="w-full flex items-center justify-between p-4 rounded-2xl glass transition-all group hover:scale-[1.01] hover:border-cyan-400/40"
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                    }}
                   >
-                    <Mail size={15} /> Send Email
+                    <div className="flex items-center gap-3.5">
+                      <div
+                        className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 glass border"
+                        style={{
+                          borderColor: 'rgba(14,165,233,0.3)',
+                          background: 'rgba(14,165,233,0.1)',
+                          color: '#0ea5e9',
+                        }}
+                      >
+                        <Mail size={19} />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-display font-semibold text-white text-sm sm:text-base group-hover:text-white transition-colors">
+                          Send Email
+                        </p>
+                        <p className="font-mono text-xs text-white/50">{PROFILE.email}</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight size={18} className="text-white/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                   </a>
-                  <a
-                    href={PROFILE.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-ghost inline-flex items-center gap-2"
-                  >
-                    <Linkedin size={15} /> LinkedIn
-                  </a>
-                  <a
-                    href={PROFILE.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-ghost inline-flex items-center gap-2"
-                  >
-                    <Github size={15} /> GitHub
-                  </a>
-                  <Link to="/projects" className="btn-ghost inline-flex items-center gap-2">
-                    <ArrowRight size={15} /> View Projects
-                  </Link>
-                </div>
-              </div>
-
-              {/* Conversion Contact Card */}
-              <div
-                className="p-8 rounded-2xl glass border space-y-6"
-                style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
-              >
-                <div>
-                  <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-2">Direct Communication</p>
-                  <div className="space-y-2">
-                    <a
-                      href={PROFILE.whatsapp}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-base sm:text-lg font-semibold text-[#00f5d4] hover:underline flex items-center gap-2.5"
-                    >
-                      <WhatsAppIcon size={18} /> Chat on WhatsApp
-                    </a>
-                    <a
-                      href={`mailto:${PROFILE.email}`}
-                      className="font-mono text-sm sm:text-base font-semibold text-white/80 hover:text-[#00f5d4] hover:underline flex items-center gap-2.5 transition-colors"
-                    >
-                      <Mail size={16} style={{ color: '#0ea5e9' }} /> {PROFILE.email}
-                    </a>
-                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                  <div>
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Location</p>
-                    <p className="text-sm font-semibold text-white">{PROFILE.location}</p>
-                  </div>
-                  <div>
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-1">Current Status</p>
-                    <p className="text-sm font-semibold text-[#00f5d4]">Open to internships &amp; freelance</p>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                  <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-3">Professional Profiles</p>
-                  <div className="flex flex-wrap items-center gap-3">
+                {/* Supporting Profiles Row */}
+                <div className="pt-5 border-t border-white/[0.08]">
+                  <p className="font-mono text-xs uppercase tracking-wider text-white/40 mb-3">
+                    Professional Networks
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
                     <a
                       href={PROFILE.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-xl glass font-mono text-xs flex items-center gap-2 hover:border-cyan-400"
-                      style={{ color: '#fff' }}
+                      className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl glass font-mono text-xs font-semibold text-white/80 hover:text-white hover:border-cyan-400/40 transition-all"
+                      style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
                     >
                       <Linkedin size={14} style={{ color: '#0ea5e9' }} /> LinkedIn
                     </a>
@@ -697,18 +721,11 @@ export default function Home() {
                       href={PROFILE.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-xl glass font-mono text-xs flex items-center gap-2 hover:border-cyan-400"
-                      style={{ color: '#fff' }}
+                      className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl glass font-mono text-xs font-semibold text-white/80 hover:text-white hover:border-cyan-400/40 transition-all"
+                      style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
                     >
                       <Github size={14} /> GitHub
                     </a>
-                    <Link
-                      to="/projects"
-                      className="px-4 py-2 rounded-xl glass font-mono text-xs flex items-center gap-2 hover:border-cyan-400"
-                      style={{ color: '#fff' }}
-                    >
-                      <ArrowRight size={14} style={{ color: '#00f5d4' }} /> Projects
-                    </Link>
                   </div>
                 </div>
               </div>

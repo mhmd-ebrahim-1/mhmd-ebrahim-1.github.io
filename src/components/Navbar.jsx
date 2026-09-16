@@ -36,9 +36,14 @@ export default function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'nav-blur shadow-2xl shadow-black/60' : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? 'rgba(5, 9, 18, 0.96)' : 'rgba(8, 8, 16, 0.4)',
+          backdropFilter: scrolled ? 'blur(20px)' : 'blur(8px)',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'blur(8px)',
+          borderBottom: scrolled ? '1px solid rgba(0, 245, 212, 0.12)' : '1px solid transparent',
+          boxShadow: scrolled ? '0 10px 35px rgba(0, 0, 0, 0.8)' : 'none',
+        }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
@@ -121,8 +126,8 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed top-[78px] left-4 right-4 z-40 md:hidden glass rounded-2xl p-3 border shadow-2xl"
-            style={{ background: 'rgba(8,8,16,.96)', borderColor: 'rgba(255,255,255,0.1)' }}
+            className="fixed top-[78px] left-4 right-4 z-50 md:hidden glass rounded-2xl p-3 border shadow-2xl"
+            style={{ background: 'rgba(6,9,18,.98)', borderColor: 'rgba(255,255,255,0.12)' }}
           >
             {LINKS.map((link) => (
               <Link
