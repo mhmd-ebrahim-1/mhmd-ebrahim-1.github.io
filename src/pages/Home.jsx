@@ -158,7 +158,7 @@ export default function Home() {
                 Explore My Work <ArrowRight size={16} />
               </Link>
               <a
-                href={`${BASE_URL}Mohamed-Ebrahim-CV.pdf`}
+                href={siteSettings?.cvUrl || `${BASE_URL}Mohamed-Ebrahim-CV.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
                 download="Mohamed-Ebrahim-CV.pdf"
@@ -416,7 +416,11 @@ export default function Home() {
                     onClick={() => setActiveProject(proj)}
                   >
                     <img
-                      src={`${BASE_URL}${proj.coverImage || 'projects/' + proj.slug + '.svg'}`}
+                      src={
+                        proj.coverImage && (proj.coverImage.startsWith('http://') || proj.coverImage.startsWith('https://') || proj.coverImage.startsWith('data:'))
+                          ? proj.coverImage
+                          : `${BASE_URL}${proj.coverImage || 'projects/' + proj.slug + '.svg'}`
+                      }
                       alt={`${proj.title} project preview`}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
                       loading="lazy"

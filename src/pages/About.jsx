@@ -28,7 +28,7 @@ const domainAccents = {
 }
 
 export default function About() {
-  const { profile, skills, tools } = useData()
+  const { profile, skills, tools, siteSettings } = useData()
   const PROFILE = profile || STATIC_PROFILE
   const SKILLS = skills || STATIC_SKILLS
   const TOOLS = tools || STATIC_TOOLS
@@ -101,7 +101,7 @@ export default function About() {
                 Explore My Projects <ArrowUpRight size={15} />
               </Link>
               <a
-                href={`${BASE_URL}Mohamed-Ebrahim-CV.pdf`}
+                href={siteSettings?.cvUrl || `${BASE_URL}Mohamed-Ebrahim-CV.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
                 download="Mohamed-Ebrahim-CV.pdf"

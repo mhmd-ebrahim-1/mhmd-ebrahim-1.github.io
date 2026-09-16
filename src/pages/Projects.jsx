@@ -15,10 +15,17 @@ const FILTERS = [
   { id: 'dev', label: 'Development' },
 ]
 
+function resolveImage(img, fallbackSlug) {
+  if (!img) return `${BASE_URL}projects/${fallbackSlug}.svg`
+  if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('data:')) return img
+  if (img.startsWith('/')) return `${BASE_URL}${img.slice(1)}`
+  return `${BASE_URL}${img}`
+}
+
 function ProjectCard({ proj, index, onOpenCaseStudy }) {
   const [ref, visible] = useReveal()
   const [hovered, setHovered] = useState(false)
-  const image = `${BASE_URL}${proj.coverImage || 'projects/' + proj.slug + '.svg'}`
+  const image = resolveImage(proj.coverImage, proj.slug)
 
   return (
     <motion.article

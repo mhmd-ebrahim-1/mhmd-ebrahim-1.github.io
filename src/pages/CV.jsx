@@ -11,6 +11,12 @@ const DEFAULT_CV_FILE = 'Mohamed-Ebrahim-CV.pdf'
 
 function TimelineItem({ item, index, isEdu = false }) {
   const [ref, visible] = useReveal()
+  const title = item.title || item.role || item.degree
+  const company = item.company || item.organization || item.institution || item.school
+  const period = item.period || (item.start_date ? `${item.start_date} – ${item.end_date || (item.current_position ? 'Present' : '')}` : item.year)
+  const isCurrent = Boolean(item.current || item.current_position)
+  const highlights = item.highlights || item.technologies || []
+
   return (
     <motion.div
       ref={ref}
@@ -23,14 +29,14 @@ function TimelineItem({ item, index, isEdu = false }) {
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 z-10"
           style={{
-            background: item.current ? 'rgba(0,245,212,0.15)' : 'rgba(255,255,255,0.04)',
-            border: item.current ? '1px solid rgba(0,245,212,0.3)' : '1px solid rgba(255,255,255,0.08)',
+            background: isCurrent ? 'rgba(0,245,212,0.15)' : 'rgba(255,255,255,0.04)',
+            border: isCurrent ? '1px solid rgba(0,245,212,0.3)' : '1px solid rgba(255,255,255,0.08)',
           }}
         >
           {isEdu ? (
-            <GraduationCap size={16} style={{ color: item.current ? '#00f5d4' : 'rgba(255,255,255,0.4)' }} />
+            <GraduationCap size={16} style={{ color: isCurrent ? '#00f5d4' : 'rgba(255,255,255,0.4)' }} />
           ) : (
-            <Briefcase size={16} style={{ color: item.current ? '#00f5d4' : 'rgba(255,255,255,0.4)' }} />
+            <Briefcase size={16} style={{ color: isCurrent ? '#00f5d4' : 'rgba(255,255,255,0.4)' }} />
           )}
         </div>
         <div className="w-px flex-1 mt-2" style={{ background: 'rgba(255,255,255,0.06)' }} />
@@ -38,9 +44,9 @@ function TimelineItem({ item, index, isEdu = false }) {
       <div className="flex-1 min-w-0 pt-1 pb-2">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-1">
           <h3 className="font-display font-semibold text-white text-base sm:text-lg">
-            {item.title || item.degree}
+            {title}
           </h3>
-          {item.current && (
+          {isCurrent && (
             <span
               className="self-start px-2.5 py-0.5 rounded-full font-mono text-xs flex items-center gap-1.5"
               style={{
@@ -55,15 +61,15 @@ function TimelineItem({ item, index, isEdu = false }) {
           )}
         </div>
         <p className="font-mono text-xs sm:text-sm text-cyan-400 mb-2">
-          {item.company || item.institution} · {item.period || item.year}
+          {company} · {period}
           {item.location ? ` · ${item.location}` : ''}
         </p>
         <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
           {item.description}
         </p>
-        {item.highlights && item.highlights.length > 0 && (
+        {highlights.length > 0 && (
           <ul className="mt-3 space-y-1.5">
-            {item.highlights.map((h, i) => (
+            {highlights.map((h, i) => (
               <li key={i} className="text-xs flex items-start gap-2" style={{ color: 'rgba(255,255,255,0.65)' }}>
                 <span className="text-[#00f5d4] mt-0.5">•</span>
                 <span>{h}</span>
@@ -77,8 +83,9 @@ function TimelineItem({ item, index, isEdu = false }) {
 }
 
 export default function CV() {
-  const { profile, siteSettings } = useData()
+  const { profile, siteSettings, experience } = useData()
   const PROFILE = profile || STATIC_PROFILE
+  const EXPERIENCE = (experience && experience.length > 0) ? experience : STATIC_EXPERIENCE
   const cvDownloadUrl = siteSettings.cvUrl || `${BASE_URL}${DEFAULT_CV_FILE}`
 
   return (

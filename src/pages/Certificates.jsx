@@ -7,6 +7,13 @@ import { useData } from '../context/DataContext'
 
 const BASE_URL = import.meta.env.BASE_URL
 
+function resolveCertImage(src) {
+  if (!src) return ''
+  if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')) return src
+  if (src.startsWith('/')) return `${BASE_URL}${src.slice(1)}`
+  return `${BASE_URL}${src}`
+}
+
 const TIER_CONFIG = {
   top: { label: 'Core Certifications', color: '#00f5d4', icon: Star, bg: 'rgba(0,245,212,0.08)', border: 'rgba(0,245,212,0.2)' },
   important: { label: 'Professional & Technical', color: '#0ea5e9', icon: Award, bg: 'rgba(14,165,233,0.08)', border: 'rgba(14,165,233,0.2)' },
@@ -28,6 +35,9 @@ function CertificateModal({ cert, onClose }) {
   }, [onClose])
 
   if (!cert) return null
+  const certImg = cert.image || cert.coverImage || cert.cover_image
+  const certName = cert.name || cert.title
+  const certColor = cert.color || cert.accent || '#00f5d4'
 
   return (
     <motion.div
@@ -50,13 +60,13 @@ function CertificateModal({ cert, onClose }) {
           <div className="flex items-center gap-3 min-w-0 pr-4">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center font-display font-bold text-xs flex-shrink-0"
-              style={{ background: cert.color + '20', border: `1px solid ${cert.color}40`, color: cert.color }}
+              style={{ background: certColor + '20', border: `1px solid ${certColor}40`, color: certColor }}
             >
-              {cert.issuer.slice(0, 2).toUpperCase()}
+              {(cert.issuer || 'CE').slice(0, 2).toUpperCase()}
             </div>
             <div className="min-w-0">
-              <h3 className="font-display font-bold text-white text-base sm:text-lg truncate">{cert.name}</h3>
-              <p className="text-xs font-mono truncate" style={{ color: cert.color }}>
+              <h3 className="font-display font-bold text-white text-base sm:text-lg truncate">{certName}</h3>
+              <p className="text-xs font-mono truncate" style={{ color: certColor }}>
                 {cert.issuer} {cert.date ? `· ${cert.date}` : '· Verified'}
               </p>
             </div>
@@ -73,10 +83,10 @@ function CertificateModal({ cert, onClose }) {
 
         {/* Modal Body */}
         <div className="flex-1 overflow-auto p-4 sm:p-6 flex flex-col items-center justify-center bg-black/60">
-          {cert.image ? (
+          {certImg ? (
             <img
-              src={`${BASE_URL}${cert.image}`}
-              alt={`${cert.name} certificate`}
+              src={resolveCertImage(certImg)}
+              alt={`${certName} certificate`}
               className="max-h-[65vh] w-auto max-w-full rounded-lg shadow-2xl object-contain"
               style={{ border: '1px solid rgba(255,255,255,0.08)' }}
             />
@@ -105,7 +115,7 @@ function CertificateModal({ cert, onClose }) {
                 <span
                   key={s}
                   className="font-mono text-[11px] px-2 py-0.5 rounded"
-                  style={{ background: `${cert.color}15`, border: `1px solid ${cert.color}30`, color: cert.color }}
+                  style={{ background: `${certColor}15`, border: `1px solid ${certColor}30`, color: certColor }}
                 >
                   {s}
                 </span>
@@ -118,8 +128,10 @@ function CertificateModal({ cert, onClose }) {
   )
 }
 
-function CertificateGallery({ onSelectCert }) {
-  const topCerts = CERTIFICATES.filter((c) => c.tier === 'top' && c.image)
+function CertificateGallery({ onSelectCert, certs }) {
+  const topCerts = (certs || []).filter((c) => (c.tier === 'top' || c.featured) && (c.image || c.coverImage || c.cover_image))
+
+  if (topCerts.length === 0) return null
 
   return (
     <section className="mb-14">
@@ -137,33 +149,39 @@ function CertificateGallery({ onSelectCert }) {
 
       {/* Featured Grid Showcase */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
-        {topCerts.map((cert) => (
-          <button
-            key={cert.id}
-            onClick={() => onSelectCert(cert)}
-            className="group relative rounded-xl overflow-hidden glass p-2 text-left transition-all duration-300 hover:scale-[1.03] hover:border-sky-500/40 flex flex-col"
-            style={{ border: '1px solid rgba(255,255,255,0.08)' }}
-          >
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-black/40 mb-2">
-              <img
-                src={`${BASE_URL}${cert.image}`}
-                alt={cert.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Eye size={16} className="text-white drop-shadow" />
+        {topCerts.map((cert) => {
+          const certImg = cert.image || cert.coverImage || cert.cover_image
+          const certName = cert.name || cert.title
+          const certColor = cert.color || cert.accent || '#00f5d4'
+
+          return (
+            <button
+              key={cert.id}
+              onClick={() => onSelectCert(cert)}
+              className="group relative rounded-xl overflow-hidden glass p-2 text-left transition-all duration-300 hover:scale-[1.03] hover:border-sky-500/40 flex flex-col"
+              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-black/40 mb-2">
+                <img
+                  src={resolveCertImage(certImg)}
+                  alt={certName}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <Eye size={16} className="text-white drop-shadow" />
+                </div>
               </div>
-            </div>
-            <p className="font-display font-semibold text-white text-[11px] leading-tight line-clamp-1 group-hover:text-cyan-300 transition-colors">
-              {cert.name}
-            </p>
-            <p className="font-mono text-[10px] mt-0.5 truncate" style={{ color: cert.color }}>
-              {cert.issuer}
-            </p>
-          </button>
-        ))}
+              <p className="font-display font-semibold text-white text-[11px] leading-tight line-clamp-1 group-hover:text-cyan-300 transition-colors">
+                {certName}
+              </p>
+              <p className="font-mono text-[10px] mt-0.5 truncate" style={{ color: certColor }}>
+                {cert.issuer}
+              </p>
+            </button>
+          )
+        })}
       </div>
     </section>
   )
@@ -171,6 +189,9 @@ function CertificateGallery({ onSelectCert }) {
 
 function CertCard({ cert, index, onSelect }) {
   const [ref, visible] = useReveal()
+  const certImg = cert.image || cert.coverImage || cert.cover_image
+  const certName = cert.name || cert.title
+  const certColor = cert.color || cert.accent || '#00f5d4'
 
   return (
     <motion.div
@@ -184,11 +205,11 @@ function CertCard({ cert, index, onSelect }) {
       style={{ border: '1px solid rgba(255,255,255,0.06)' }}
     >
       {/* Visual Thumbnail or Issuer Avatar */}
-      {cert.image ? (
+      {certImg ? (
         <div className="relative w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 bg-black/50 border border-white/10 group-hover:border-sky-400/50 transition-colors">
           <img
-            src={`${BASE_URL}${cert.image}`}
-            alt={cert.name}
+            src={resolveCertImage(certImg)}
+            alt={certName}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             loading="lazy"
             decoding="async"
@@ -200,24 +221,24 @@ function CertCard({ cert, index, onSelect }) {
       ) : (
         <div
           className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-bold text-sm"
-          style={{ background: cert.color + '18', border: `1px solid ${cert.color}30`, color: cert.color }}
+          style={{ background: certColor + '18', border: `1px solid ${certColor}30`, color: certColor }}
         >
-          {cert.issuer.slice(0, 2).toUpperCase()}
+          {(cert.issuer || 'CE').slice(0, 2).toUpperCase()}
         </div>
       )}
 
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
           <p className="font-display font-semibold text-white text-sm leading-snug mb-1 group-hover:text-cyan-300 transition-colors">
-            {cert.name}
+            {certName}
           </p>
-          {cert.image && (
+          {certImg && (
             <span className="font-mono text-[10px] px-1.5 py-0.5 rounded text-white/40 group-hover:text-cyan-300 transition-colors flex items-center gap-1 flex-shrink-0">
               <Eye size={11} /> View
             </span>
           )}
         </div>
-        <p className="font-semibold text-xs mb-1" style={{ color: cert.color }}>
+        <p className="font-semibold text-xs mb-1" style={{ color: certColor }}>
           {cert.issuer}
         </p>
         <p className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
@@ -236,7 +257,7 @@ function CertCard({ cert, index, onSelect }) {
               <span
                 key={s}
                 className="font-mono text-[11px] px-2 py-0.5 rounded-md"
-                style={{ background: `${cert.color}0d`, border: `1px solid ${cert.color}25`, color: cert.color }}
+                style={{ background: `${certColor}0d`, border: `1px solid ${certColor}25`, color: certColor }}
               >
                 {s}
               </span>
@@ -362,9 +383,9 @@ export default function Certificates() {
           </div>
         </motion.div>
 
-        <CertificateGallery onSelectCert={(cert) => setSelectedCert(cert)} />
+        <CertificateGallery onSelectCert={(cert) => setSelectedCert(cert)} certs={CERTIFICATES} />
 
-        {groups.map(({ tier, certs }) => (
+        {visibleGroups.map(({ tier, certs }) => (
           <CertSection key={tier} tier={tier} certs={certs} onSelect={(cert) => setSelectedCert(cert)} />
         ))}
       </div>
