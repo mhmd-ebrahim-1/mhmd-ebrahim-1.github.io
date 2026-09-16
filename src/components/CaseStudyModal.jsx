@@ -1,0 +1,467 @@
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { X, Github, ExternalLink, CheckCircle2, AlertTriangle, Lightbulb, Database, Layers, ArrowUpRight, Image as ImageIcon, ZoomIn } from 'lucide-react'
+
+const BASE_URL = import.meta.env.BASE_URL
+
+export default function CaseStudyModal({ project, isOpen, onClose }) {
+  const [selectedVisualIdx, setSelectedVisualIdx] = useState(0)
+  const [lightboxImg, setLightboxImg] = useState(null)
+
+  useEffect(() => {
+    setSelectedVisualIdx(0)
+    setLightboxImg(null)
+  }, [project])
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxImg) {
+          setLightboxImg(null)
+        } else {
+          onClose()
+        }
+      }
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, onClose, lightboxImg])
+
+  if (!isOpen || !project) return null
+
+  const cs = project.caseStudy || {}
+  const visuals = cs.visuals || [
+    {
+      title: project.title,
+      url: project.coverImage || `projects/${project.slug}.svg`,
+      description: project.valueProp || project.description,
+    },
+  ]
+  const currentVisual = visuals[selectedVisualIdx] || visuals[0]
+  const activeImgSrc = `${BASE_URL}${currentVisual.url}`
+
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 md:p-8 overflow-y-auto">
+        {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md"
+          aria-hidden="true"
+        />
+
+        {/* Fullscreen Lightbox Zoom */}
+        <AnimatePresence>
+          {lightboxImg && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setLightboxImg(null)}
+              className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-xl p-4 sm:p-10 flex items-center justify-center cursor-zoom-out"
+            >
+              <button
+                onClick={() => setLightboxImg(null)}
+                className="absolute top-6 right-6 w-11 h-11 rounded-2xl glass flex items-center justify-center text-white border border-white/20"
+                aria-label="Close zoom"
+              >
+                <X size={20} />
+              </button>
+              <img
+                src={lightboxImg}
+                alt="Enlarged screenshot"
+                className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Modal Window */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 20 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl overflow-hidden glass z-10 shadow-2xl"
+          style={{
+            background: 'rgba(11, 11, 22, 0.97)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            boxShadow: '0 25px 80px rgba(0,0,0,0.85), 0 0 60px rgba(0,245,212,0.06)',
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="case-study-title"
+        >
+          {/* Header Bar */}
+          <div
+            className="sticky top-0 z-20 flex items-center justify-between px-6 py-4 backdrop-blur-xl border-b"
+            style={{
+              background: 'rgba(14, 14, 28, 0.94)',
+              borderColor: 'rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <span
+                className="font-mono text-[10px] sm:text-xs px-2.5 py-1 rounded-md uppercase tracking-wider font-semibold"
+                style={{
+                  color: project.accent || '#00f5d4',
+                  background: `${project.accent || '#00f5d4'}14`,
+                  border: `1px solid ${project.accent || '#00f5d4'}33`,
+                }}
+              >
+                {project.categoryLabel || 'PROJECT CASE STUDY'}
+              </span>
+              <span className="font-mono text-xs hidden sm:inline" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                // CASE STUDY &amp; EVIDENCE
+              </span>
+            </div>
+
+            <button
+              onClick={onClose}
+              aria-label="Close modal"
+              className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:bg-white/10"
+              style={{
+                color: 'rgba(255, 255, 255, 0.7)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+              }}
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Scrollable Content Body */}
+          <div className="flex-1 overflow-y-auto px-6 sm:px-10 py-8 space-y-10">
+            {/* Title & Value Proposition */}
+            <div>
+              <h2 id="case-study-title" className="font-display text-2xl sm:text-4xl font-bold text-white mb-3">
+                {project.title}
+              </h2>
+              <p className="text-base sm:text-lg leading-relaxed" style={{ color: project.accent || '#38bdf8' }}>
+                {project.valueProp || project.description}
+              </p>
+            </div>
+
+            {/* Featured Evidence & Visual Showcase */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <p className="font-mono text-xs tracking-wider uppercase flex items-center gap-2 text-white/50">
+                  <ImageIcon size={14} style={{ color: project.accent }} /> Project Visual Evidence ({selectedVisualIdx + 1}/{visuals.length})
+                </p>
+                <span className="font-mono text-[11px] text-white/40 hidden sm:inline">
+                  Click image to zoom
+                </span>
+              </div>
+
+              {/* Main Active Visual Container */}
+              <div
+                className="relative rounded-2xl overflow-hidden bg-[#07070f] border aspect-video max-h-[380px] flex items-center justify-center group cursor-zoom-in"
+                style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+                onClick={() => setLightboxImg(activeImgSrc)}
+              >
+                <img
+                  src={activeImgSrc}
+                  alt={currentVisual.title || `${project.title} preview`}
+                  className="w-full h-full object-contain bg-[#07070f]"
+                  loading="eager"
+                  onError={(e) => {
+                    e.currentTarget.src = `${BASE_URL}projects/${project.slug}.svg`
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b16]/90 via-transparent to-transparent opacity-90 pointer-events-none" />
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="px-2.5 py-1 rounded-lg glass font-mono text-xs text-white flex items-center gap-1 border border-white/20">
+                    <ZoomIn size={12} /> Expand
+                  </span>
+                </div>
+                <div className="absolute bottom-4 left-5 right-5 text-xs">
+                  <p className="font-display font-semibold text-white text-sm sm:text-base drop-shadow-md">
+                    {currentVisual.title}
+                  </p>
+                  {currentVisual.description && (
+                    <p className="text-xs text-white/70 mt-1 line-clamp-2 drop-shadow">
+                      {currentVisual.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Visual Thumbnail Strip (If multiple visuals exist) */}
+              {visuals.length > 1 && (
+                <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-1">
+                  {visuals.map((v, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedVisualIdx(idx)}
+                      className="relative h-16 w-28 rounded-xl overflow-hidden border shrink-0 transition-all text-left group"
+                      style={{
+                        borderColor: selectedVisualIdx === idx ? project.accent || '#00f5d4' : 'rgba(255,255,255,0.08)',
+                        boxShadow: selectedVisualIdx === idx ? `0 0 15px ${project.accent || '#00f5d4'}33` : 'none',
+                      }}
+                    >
+                      <img
+                        src={`${BASE_URL}${v.url}`}
+                        alt={v.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      />
+                      <div className="absolute inset-0 bg-black/30" />
+                      <span className="absolute bottom-1 left-1.5 font-mono text-[9px] px-1 rounded bg-black/80 text-white/80">
+                        0{idx + 1}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Tech Stack Strip */}
+            <div>
+              <p className="font-mono text-xs mb-3 tracking-wider uppercase text-white/40">
+                Technologies &amp; Architecture Stack
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="font-mono text-xs px-3 py-1.5 rounded-lg"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: '#e8e8f0',
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Problem & Objective Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div
+                className="p-6 rounded-2xl"
+                style={{
+                  background: 'rgba(244, 63, 94, 0.04)',
+                  border: '1px solid rgba(244, 63, 94, 0.18)',
+                }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertTriangle size={17} style={{ color: '#f43f5e' }} />
+                  <h3 className="font-display font-semibold text-white text-base">The Problem</h3>
+                </div>
+                <p className="text-sm leading-relaxed text-white/70">
+                  {cs.problem || 'Identified operational and analytical bottlenecks requiring systematic engineering.'}
+                </p>
+              </div>
+
+              <div
+                className="p-6 rounded-2xl"
+                style={{
+                  background: 'rgba(0, 245, 212, 0.04)',
+                  border: '1px solid rgba(0, 245, 212, 0.18)',
+                }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle2 size={17} style={{ color: '#00f5d4' }} />
+                  <h3 className="font-display font-semibold text-white text-base">The Objective</h3>
+                </div>
+                <p className="text-sm leading-relaxed text-white/70">
+                  {cs.objective || 'Architect and deploy an end-to-end technical system delivering verified outcomes.'}
+                </p>
+              </div>
+            </div>
+
+            {/* Architecture / Workflow Steps */}
+            {cs.architecture && (
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Layers size={17} style={{ color: '#38bdf8' }} />
+                  <h3 className="font-display font-semibold text-white text-lg">System Architecture &amp; Pipeline</h3>
+                </div>
+                <div className="space-y-3">
+                  {cs.architecture.map((step, idx) => (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-xl flex items-start gap-3.5 text-sm leading-relaxed"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.02)',
+                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        color: 'rgba(255, 255, 255, 0.75)',
+                      }}
+                    >
+                      <span
+                        className="font-mono text-xs px-2 py-0.5 rounded shrink-0 mt-0.5 font-bold"
+                        style={{
+                          background: 'rgba(56, 189, 248, 0.12)',
+                          color: '#38bdf8',
+                          border: '1px solid rgba(56, 189, 248, 0.25)',
+                        }}
+                      >
+                        0{idx + 1}
+                      </span>
+                      <span>{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Dataset & Methodology Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {cs.dataset && (
+                <div
+                  className="p-6 rounded-2xl"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <Database size={16} style={{ color: '#a78bfa' }} />
+                    <h3 className="font-display font-semibold text-white text-sm">Dataset &amp; Sources</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-white/60">
+                    {cs.dataset}
+                  </p>
+                </div>
+              )}
+
+              {cs.methodology && (
+                <div
+                  className="p-6 rounded-2xl"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <Lightbulb size={16} style={{ color: '#fb923c' }} />
+                    <h3 className="font-display font-semibold text-white text-sm">Methodology &amp; Approach</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm leading-relaxed text-white/60">
+                    {cs.methodology}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Verified Deliverables & Results */}
+            {cs.verifiedResults && (
+              <div>
+                <h3 className="font-display font-semibold text-white text-lg mb-4 flex items-center gap-2">
+                  <CheckCircle2 size={18} style={{ color: '#00f5d4' }} /> Verified Deliverables &amp; Engineering Outcomes
+                </h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {cs.verifiedResults.map((res, i) => (
+                    <div
+                      key={i}
+                      className="p-4 rounded-xl flex items-start gap-3 text-xs sm:text-sm leading-relaxed"
+                      style={{
+                        background: 'rgba(0, 245, 212, 0.03)',
+                        border: '1px solid rgba(0, 245, 212, 0.12)',
+                        color: 'rgba(255, 255, 255, 0.8)',
+                      }}
+                    >
+                      <span className="text-[#00f5d4] mt-0.5 shrink-0">✦</span>
+                      <span>{res}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Challenges & Takeaways */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {cs.challenges && (
+                <div
+                  className="p-6 rounded-2xl"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                  }}
+                >
+                  <h4 className="font-display font-semibold text-white text-sm mb-3">Technical Challenges</h4>
+                  <ul className="space-y-2 text-xs sm:text-sm text-white/60">
+                    {cs.challenges.map((c, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-rose-400 mt-1 shrink-0">•</span>
+                        <span>{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {cs.learnings && (
+                <div
+                  className="p-6 rounded-2xl"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                  }}
+                >
+                  <h4 className="font-display font-semibold text-white text-sm mb-3">Key Engineering Takeaways</h4>
+                  <p className="text-xs sm:text-sm leading-relaxed text-white/60">
+                    {cs.learnings}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Footer Action Bar */}
+          <div
+            className="sticky bottom-0 z-20 flex flex-wrap items-center justify-between gap-4 px-6 sm:px-10 py-4 border-t backdrop-blur-xl"
+            style={{
+              background: 'rgba(14, 14, 28, 0.96)',
+              borderColor: 'rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs sm:text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                style={{
+                  background: 'linear-gradient(135deg, #00f5d4, #0ea5e9)',
+                  color: '#080810',
+                }}
+              >
+                <Github size={15} /> View Source Code
+              </a>
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-mono text-xs sm:text-sm font-semibold glass hover:border-cyan-400"
+                  style={{ color: '#fff' }}
+                >
+                  <ExternalLink size={15} /> Live Demo
+                </a>
+              )}
+            </div>
+            <button
+              onClick={onClose}
+              className="font-mono text-xs transition-colors hover:text-white text-white/40"
+            >
+              Close Case Study [ESC]
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  )
+}

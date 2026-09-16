@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Mohamed Ebrahim</title></head>
+<body>
+<script>
+  const path = window.location.pathname
+  const route = path || '/'
+  window.location.replace(`/?redirect=${encodeURIComponent(route + window.location.search + window.location.hash)}`)
+</script>
+</body>
+</html>
