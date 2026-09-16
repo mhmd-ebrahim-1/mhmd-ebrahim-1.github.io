@@ -18,9 +18,10 @@ import {
   ShieldCheck,
   Mail,
 } from 'lucide-react'
-import { PROFILE, SERVICES } from '../data'
+import { PROFILE as STATIC_PROFILE, SERVICES as STATIC_SERVICES } from '../data'
 import { getEmailServiceUrl } from '../config/contact'
 import WhatsAppIcon from '../components/WhatsAppIcon'
+import { useData } from '../context/DataContext'
 
 const serviceIconMap = {
   BarChart3,
@@ -64,6 +65,10 @@ const workflowSteps = [
 ]
 
 export default function Services() {
+  const { profile, services } = useData()
+  const PROFILE = profile || STATIC_PROFILE
+  const SERVICES = (services || STATIC_SERVICES).filter((s) => s.published ?? true)
+
   return (
     <div className="page-transition min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">

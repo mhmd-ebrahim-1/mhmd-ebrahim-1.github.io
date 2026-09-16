@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Github, ExternalLink, ArrowUpRight, ArrowRight, Layers } from 'lucide-react'
 import { useReveal } from '../hooks'
-import { PROJECTS } from '../data'
+import { PROJECTS as STATIC_PROJECTS } from '../data'
 import CaseStudyModal from '../components/CaseStudyModal'
+import { useData } from '../context/DataContext'
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -38,51 +39,43 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
       <div>
         {/* Preview Thumbnail */}
         <div
-          className="h-48 sm:h-52 relative overflow-hidden bg-[#07070e] border-b flex items-center justify-center cursor-pointer"
-          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-          onClick={() => {
-            if (proj.caseStudy) onOpenCaseStudy(proj)
-          }}
+          className="relative h-48 bg-[#0a0a14] overflow-hidden cursor-pointer group/preview flex items-center justify-center"
+          onClick={() => (proj.caseStudy ? onOpenCaseStudy(proj) : null)}
         >
           <img
             src={image}
-            alt={`${proj.title} project preview`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            alt={proj.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             onError={(e) => {
-              e.currentTarget.style.display = 'none'
+              e.currentTarget.src = `${BASE_URL}projects/${proj.slug}.svg`
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#080810]/80 via-transparent to-transparent pointer-events-none" />
 
-          {proj.featured && (
+          {/* Quick Pill */}
+          <div className="absolute top-3 right-3 flex items-center gap-1.5">
+            {proj.featured && (
+              <span className="font-mono text-[10px] px-2.5 py-1 rounded-md glass text-amber-300 border border-amber-300/30 font-semibold shadow-md">
+                Featured
+              </span>
+            )}
             <span
-              className="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-md font-mono text-[10px] font-bold tracking-wider"
+              className="font-mono text-[10px] px-2.5 py-1 rounded-md glass font-semibold"
               style={{
-                background: (proj.accent || '#00f5d4') + '22',
-                border: `1px solid ${proj.accent || '#00f5d4'}55`,
                 color: proj.accent || '#00f5d4',
+                borderColor: `${proj.accent || '#00f5d4'}40`,
+                background: 'rgba(8,8,16,0.85)',
               }}
             >
-              FEATURED
+              {proj.categoryLabel || proj.category}
             </span>
-          )}
-
-          <span
-            className="absolute top-3.5 right-3.5 px-2 py-0.5 rounded font-mono text-[10px]"
-            style={{
-              background: 'rgba(0,0,0,.65)',
-              color: 'rgba(255,255,255,.8)',
-              border: '1px solid rgba(255,255,255,.12)',
-            }}
-          >
-            {proj.categoryLabel || (proj.category === 'ai' ? 'AI & ML' : proj.category === 'data' ? 'DATA' : 'DEV')}
-          </span>
+          </div>
 
           {proj.caseStudy && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-xs">
-              <span className="px-3.5 py-1.5 rounded-lg glass font-mono text-xs text-white flex items-center gap-1.5">
-                <Layers size={13} style={{ color: proj.accent }} /> Read Case Study
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity bg-black/40 backdrop-blur-xs">
+              <span className="px-3.5 py-1.5 rounded-xl glass font-mono text-xs font-semibold text-white flex items-center gap-1.5">
+                <Layers size={13} style={{ color: proj.accent || '#00f5d4' }} /> Case Study
               </span>
             </div>
           )}
@@ -103,15 +96,15 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
           </div>
 
           <p className="text-xs sm:text-sm font-medium mb-3 leading-relaxed" style={{ color: proj.accent || '#38bdf8' }}>
-            {proj.valueProp || proj.description}
+            {proj.valueProp || proj.description || proj.shortDesc}
           </p>
 
           <p className="text-xs leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,.5)' }}>
-            {proj.description}
+            {proj.shortDesc || proj.description}
           </p>
 
           <div className="flex flex-wrap gap-1.5 mb-5">
-            {proj.tech.map((t) => (
+            {proj.tech?.map((t) => (
               <span
                 key={t}
                 className="font-mono text-[11px] px-2 py-0.5 rounded"
@@ -139,33 +132,33 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
             className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold transition-all hover:translate-x-0.5"
             style={{ color: proj.accent || '#00f5d4' }}
           >
-            Case Study <ArrowRight size={12} />
+            Read Case Study <ArrowRight size={13} />
           </button>
         ) : (
-          <span className="font-mono text-[11px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            Code Available
-          </span>
+          <span className="font-mono text-xs text-white/30">Implementation View</span>
         )}
 
-        <div className="flex items-center gap-3">
-          <a
-            href={proj.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-mono text-xs transition-colors hover:text-white"
-            style={{ color: 'rgba(255,255,255,.5)' }}
-          >
-            <Github size={13} /> Source
-          </a>
+        <div className="flex items-center gap-2">
           {proj.live && (
             <a
               href={proj.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-mono text-xs transition-colors hover:text-white"
-              style={{ color: proj.accent || '#00f5d4' }}
+              className="p-2 rounded-lg glass text-white/60 hover:text-white transition-colors"
+              title="Live Demo"
             >
-              <ExternalLink size={13} /> Demo
+              <ExternalLink size={15} />
+            </a>
+          )}
+          {proj.github && (
+            <a
+              href={proj.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg glass text-white/60 hover:text-white transition-colors"
+              title="Source Code"
+            >
+              <Github size={15} />
             </a>
           )}
         </div>
@@ -175,6 +168,9 @@ function ProjectCard({ proj, index, onOpenCaseStudy }) {
 }
 
 export default function Projects() {
+  const { projects } = useData()
+  const PROJECTS = (projects || STATIC_PROJECTS).filter((p) => p.published ?? true)
+
   const [filter, setFilter] = useState('all')
   const [activeProject, setActiveProject] = useState(null)
 

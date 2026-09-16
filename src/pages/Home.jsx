@@ -21,11 +21,12 @@ import {
   Briefcase,
   Layers,
 } from 'lucide-react'
-import { PROFILE, PROJECTS, SERVICES } from '../data'
+import { PROFILE as STATIC_PROFILE, PROJECTS as STATIC_PROJECTS, SERVICES as STATIC_SERVICES } from '../data'
 import { getEmailServiceUrl } from '../config/contact'
 import TrustStrip from '../components/TrustStrip'
 import CaseStudyModal from '../components/CaseStudyModal'
 import WhatsAppIcon from '../components/WhatsAppIcon'
+import { useData } from '../context/DataContext'
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -43,8 +44,8 @@ const domains = [
   {
     icon: Database,
     title: 'Data Analytics & BI',
-    text: 'Exploratory data analysis, SQL modeling, statistical data cleaning, and production Power BI dashboards with DAX.',
-    tags: ['Python', 'SQL', 'Pandas', 'Power BI', 'DAX'],
+    text: 'Raw data ingestion, clean star schemas, statistical distributions, advanced DAX measures, and interactive Power BI dashboards.',
+    tags: ['Python', 'SQL', 'Pandas', 'Power BI', 'DAX', 'PostgreSQL'],
     accent: '#0ea5e9',
   },
   {
@@ -64,8 +65,16 @@ const domains = [
 ]
 
 export default function Home() {
+  const { profile, projects, services } = useData()
+  const PROFILE = profile || STATIC_PROFILE
+  const PROJECTS = projects || STATIC_PROJECTS
+  const SERVICES = services || STATIC_SERVICES
+
   const [activeProject, setActiveProject] = useState(null)
-  const featured = PROJECTS.filter((p) => p.featured).slice(0, 4)
+  const featured = (PROJECTS.filter((p) => p.featured && (p.published ?? true)).length > 0
+    ? PROJECTS.filter((p) => p.featured && (p.published ?? true))
+    : PROJECTS.filter((p) => p.published ?? true)
+  ).slice(0, 4)
 
   return (
     <main className="page-transition">

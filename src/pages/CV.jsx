@@ -2,11 +2,12 @@ import { motion } from 'framer-motion'
 import { Download, Briefcase, GraduationCap, MapPin, Mail, Github, Linkedin } from 'lucide-react'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { useReveal } from '../hooks'
-import { PROFILE, EXPERIENCE, EDUCATION, LEARNING_ACTIVITIES, SKILLS, TOOLS } from '../data'
+import { PROFILE as STATIC_PROFILE, EXPERIENCE as STATIC_EXPERIENCE, EDUCATION, LEARNING_ACTIVITIES, SKILLS, TOOLS } from '../data'
 import '../config/contact'
+import { useData } from '../context/DataContext'
 
 const BASE_URL = import.meta.env.BASE_URL
-const CV_FILE = 'Mohamed-Ebrahim-CV.pdf'
+const DEFAULT_CV_FILE = 'Mohamed-Ebrahim-CV.pdf'
 
 function TimelineItem({ item, index, isEdu = false }) {
   const [ref, visible] = useReveal()
@@ -43,33 +44,32 @@ function TimelineItem({ item, index, isEdu = false }) {
             <span
               className="self-start px-2.5 py-0.5 rounded-full font-mono text-xs flex items-center gap-1.5"
               style={{
-                background: 'rgba(0,245,212,0.08)',
-                border: '1px solid rgba(0,245,212,0.2)',
+                background: 'rgba(0,245,212,0.1)',
+                border: '1px solid rgba(0,245,212,0.3)',
                 color: '#00f5d4',
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00f5d4] animate-pulse" />
               Current
             </span>
           )}
         </div>
-        <p className="font-semibold mb-1 text-sm" style={{ color: '#0ea5e9' }}>
-          {item.org || item.school}
+        <p className="font-mono text-xs sm:text-sm text-cyan-400 mb-2">
+          {item.company || item.institution} · {item.period || item.year}
+          {item.location ? ` · ${item.location}` : ''}
         </p>
-        <p className="font-mono text-xs mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em' }}>
-          {item.period}
-        </p>
-        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+        <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
           {item.description}
         </p>
-        {item.skills && (
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {item.skills.map((s) => (
-              <span key={s} className="tech-tag">
-                {s}
-              </span>
+        {item.highlights && item.highlights.length > 0 && (
+          <ul className="mt-3 space-y-1.5">
+            {item.highlights.map((h, i) => (
+              <li key={i} className="text-xs flex items-start gap-2" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                <span className="text-[#00f5d4] mt-0.5">•</span>
+                <span>{h}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </motion.div>
@@ -77,30 +77,35 @@ function TimelineItem({ item, index, isEdu = false }) {
 }
 
 export default function CV() {
+  const { profile, siteSettings } = useData()
+  const PROFILE = profile || STATIC_PROFILE
+  const cvDownloadUrl = siteSettings.cvUrl || `${BASE_URL}${DEFAULT_CV_FILE}`
+
   return (
     <div className="page-transition min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-10">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-12 sm:mb-16"
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12"
         >
           <div>
-            <p className="font-mono text-xs mb-3 tracking-wider uppercase" style={{ color: '#00f5d4' }}>
-              // 05 — RÉSUMÉ &amp; CREDENTIALS
+            <p className="font-mono text-xs mb-3 tracking-[0.12em]" style={{ color: '#00f5d4' }}>
+              // 05 — CURRICULUM VITAE
             </p>
-            <h1 className="font-display text-4xl sm:text-6xl font-bold mb-4 tracking-[-0.04em]">
-              My <span className="grad-text">CV</span>
+            <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-[-0.04em]">
+              Professional <span className="grad-text">CV</span>
             </h1>
-            <p className="text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Verified experience, education, technical proficiencies, and coursework summary.
+            <p className="text-sm sm:text-base mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              Official curriculum vitae, training milestones, and technical background.
             </p>
           </div>
+
           <motion.a
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            href={`${BASE_URL}${CV_FILE}`}
+            href={cvDownloadUrl}
             target="_blank"
             rel="noopener noreferrer"
             download="Mohamed-Ebrahim-CV.pdf"

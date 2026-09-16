@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
 import { useReveal } from '../hooks'
-import { PROFILE, SKILLS, TOOLS } from '../data'
+import { PROFILE as STATIC_PROFILE, SKILLS as STATIC_SKILLS, TOOLS as STATIC_TOOLS } from '../data'
 import { Database, BrainCircuit, Bot, Eye, Cpu, Terminal, ArrowUpRight, Sparkles, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import '../config/contact'
+import { useData } from '../context/DataContext'
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -27,6 +28,11 @@ const domainAccents = {
 }
 
 export default function About() {
+  const { profile, skills, tools } = useData()
+  const PROFILE = profile || STATIC_PROFILE
+  const SKILLS = skills || STATIC_SKILLS
+  const TOOLS = tools || STATIC_TOOLS
+
   const [heroRef, heroVisible] = useReveal()
   const [skillsRef, skillsVisible] = useReveal()
   const [toolsRef, toolsVisible] = useReveal()

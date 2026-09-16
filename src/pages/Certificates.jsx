@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Award, Star, BookOpen, ChevronDown, ChevronUp, Images, X, ExternalLink, Eye, CheckCircle2 } from 'lucide-react'
 import { useReveal } from '../hooks'
-import { CERTIFICATES } from '../data'
+import { CERTIFICATES as STATIC_CERTIFICATES } from '../data'
+import { useData } from '../context/DataContext'
 
 const BASE_URL = import.meta.env.BASE_URL
 
@@ -310,10 +311,13 @@ function CertSection({ tier, certs, onSelect }) {
 }
 
 export default function Certificates() {
+  const { certificates } = useData()
+  const CERTIFICATES = (certificates || STATIC_CERTIFICATES).filter((c) => c.published ?? true)
+
   const [selectedCert, setSelectedCert] = useState(null)
   const groups = ['top', 'important', 'standard', 'learning'].map((tier) => ({
     tier,
-    certs: CERTIFICATES.filter((c) => c.tier === tier),
+    certs: CERTIFICATES.filter((c) => c.tier === tier || c.category === tier),
   }))
   const visibleGroups = groups.filter((g) => g.certs.length > 0)
 
