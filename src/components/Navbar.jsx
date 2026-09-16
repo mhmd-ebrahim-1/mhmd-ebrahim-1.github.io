@@ -6,6 +6,8 @@ import WhatsAppIcon from './WhatsAppIcon'
 import { PROFILE } from '../data'
 import '../config/contact'
 
+const BASE_URL = import.meta.env.BASE_URL || '/'
+
 const LINKS = [
   { path: '/', label: 'Home' },
   { path: '/about', label: 'About' },
@@ -48,14 +50,21 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-bold text-sm transition-transform group-hover:scale-105"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(0,245,212,0.35)]"
               style={{
-                background: 'linear-gradient(135deg,rgba(0,245,212,0.15),rgba(14,165,233,0.15))',
-                border: '1px solid rgba(0,245,212,0.3)',
-                color: '#00f5d4',
+                background: 'linear-gradient(135deg, rgba(8,12,24,0.9), rgba(12,18,36,0.95))',
+                border: '1px solid rgba(0, 245, 212, 0.25)',
               }}
             >
-              ME
+              <img
+                src={`${BASE_URL}logo-me.webp`}
+                alt="Mohamed Ebrahim"
+                className="w-full h-full object-contain p-1 transition-transform duration-300 group-hover:scale-110"
+                loading="eager"
+                onError={(e) => {
+                  e.currentTarget.src = `${BASE_URL}logo-me.png`
+                }}
+              />
             </div>
             <div>
               <p className="font-display font-bold text-sm text-white tracking-tight group-hover:text-[#00f5d4] transition-colors">

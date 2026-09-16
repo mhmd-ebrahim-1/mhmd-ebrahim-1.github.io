@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
+const BASE_URL = import.meta.env.BASE_URL || '/'
+
 export default function Loader({ onDone }) {
   const [visible, setVisible] = useState(true)
 
@@ -19,8 +21,8 @@ export default function Loader({ onDone }) {
         <motion.div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ background: '#07070d' }} initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
           <div className="absolute inset-0 grid-bg opacity-20" />
           <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10 text-center">
-            <div className="mx-auto mb-6 w-20 h-20 rounded-3xl flex items-center justify-center" style={{ background: 'linear-gradient(145deg, rgba(0,245,212,0.14), rgba(14,165,233,0.08))', border: '1px solid rgba(0,245,212,0.25)', boxShadow: '0 0 70px rgba(0,245,212,0.08)' }}>
-              <span className="font-display font-bold text-2xl" style={{ color: '#00f5d4' }}>ME</span>
+            <div className="mx-auto mb-6 w-20 h-20 rounded-3xl overflow-hidden flex items-center justify-center p-3" style={{ background: 'linear-gradient(145deg, rgba(0,245,212,0.14), rgba(14,165,233,0.08))', border: '1px solid rgba(0,245,212,0.25)', boxShadow: '0 0 70px rgba(0,245,212,0.12)' }}>
+              <img src={`${BASE_URL}logo-me.webp`} alt="Mohamed Ebrahim" className="w-full h-full object-contain" onError={(e) => { e.currentTarget.src = `${BASE_URL}logo-me.png` }} />
             </div>
             <p className="font-display text-lg font-semibold text-white">Mohamed Ebrahim</p>
             <p className="font-mono text-[10px] mt-2 tracking-[0.22em]" style={{ color: 'rgba(0,245,212,0.7)' }}>LOADING PORTFOLIO</p>
