@@ -95,9 +95,14 @@ a:focus-visible, button:focus-visible {
   background: var(--cyan);
   border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: -3px;
+  margin-left: -3px;
   pointer-events: none;
   z-index: 9999;
-  transition: transform .08s;
+  transition: opacity 0.2s ease;
+  will-change: transform;
 }
 
 .cursor-ring {
@@ -106,15 +111,28 @@ a:focus-visible, button:focus-visible {
   border: 1px solid var(--cursor-ring);
   border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: -16px;
+  margin-left: -16px;
   pointer-events: none;
   z-index: 9998;
-  transition: transform .12s, width .2s, height .2s, border-color .2s;
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              margin 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              background-color 0.2s ease,
+              opacity 0.2s ease;
+  will-change: transform;
 }
 
 .cursor-ring.cursor-hover {
   width: 48px;
   height: 48px;
+  margin-top: -24px;
+  margin-left: -24px;
   border-color: var(--cyan);
+  background-color: rgba(0, 245, 212, 0.06);
 }
 
 ::-webkit-scrollbar {
@@ -284,9 +302,9 @@ a:focus-visible, button:focus-visible {
   transform: translateY(-2px);
 }
 
-@media (max-width: 900px) {
-  body { cursor: auto; }
-  .cursor-dot, .cursor-ring { display: none; }
+@media (max-width: 900px), (pointer: coarse) {
+  body { cursor: auto !important; }
+  .cursor-dot, .cursor-ring { display: none !important; }
   .grid-bg { background-size: 42px 42px; }
   .btn-primary, .btn-ghost { padding: 12px 20px; font-size: 13px; }
 }

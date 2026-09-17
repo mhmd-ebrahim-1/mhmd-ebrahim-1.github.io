@@ -150,7 +150,7 @@ function LayoutContent() {
 
   return (
     <>
-      {!isAdmin && <Cursor />}
+      <Cursor />
       {!isAdmin && <div className="noise" />}
       {!isAdmin && <Navbar />}
 
